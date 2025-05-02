@@ -23,12 +23,16 @@ export async function assistantThreadMessage(
     thread_ts: thread_ts,
     prompts: [
       {
-        title: "Get the weather",
-        message: "What is the current weather in London?",
+        title: "Tasks",
+        message: "What tasks do you need help with?",
       },
       {
-        title: "Get the news",
-        message: "What is the latest Premier League news from the BBC?",
+        title: "Brainstorm",
+        message: "Brainstorm some ideas for a new project.",
+      },
+      {
+        title: "Draft an email",
+        message: "Draft an email to a client.",
       },
     ],
   });
