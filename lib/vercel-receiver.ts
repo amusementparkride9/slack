@@ -11,6 +11,7 @@ export class VercelReceiver implements Receiver {
     this.bolt = app;
   }
 
+  // These methods are required by the Receiver interface but not used in our serverless context
   async start(): Promise<void> {
     // No-op for serverless
     return Promise.resolve();
@@ -26,27 +27,70 @@ export class VercelReceiver implements Receiver {
       throw new Error('Bolt app not initialized');
     }
 
-    // Get the raw body as text
-    const rawBody = await request.text();
-    const body = JSON.parse(rawBody);
-
-    // Handle URL verification challenge
-    if (body.type === 'url_verification') {
-      return new Response(body.challenge, { status: 200 });
-    }
-
-    // Create a ReceiverEvent for Bolt to process
-    const event: ReceiverEvent = {
-      body,
-      ack: async (response) => {
-        // This is handled automatically in our case
-      },
-      retryNum: request.headers.get('x-slack-retry-num') ? 
-        parseInt(request.headers.get('x-slack-retry-num') as string, 10) : 0,
-      retryReason: request.headers.get('x-slack-retry-reason') as string || undefined,
-    };
+    // Check content type to determine how to parse the body
+    const contentType = request.headers.get('content-type') || '';
+    let body: any;
 
     try {
+      if (contentType.includes('application/json')) {
+        // Parse JSON body
+        const rawBody = await request.text();
+        body = JSON.parse(rawBody);
+      } else if (contentType.includes('application/x-www-form-urlencoded')) {
+        // Parse form data
+        const formData = await request.formData();
+        const payload = formData.get('payload');
+        
+        if (payload && typeof payload === 'string') {
+          // Interactive payloads come as a JSON string in the 'payload' field
+          body = JSON.parse(payload);
+        } else {
+          // For slash commands and other form-encoded requests
+          body = {};
+          formData.forEach((value, key) => {
+            body[key] = value;
+          });
+        }
+      } else {
+        // Fallback to text and try to parse as JSON
+        const rawBody = await request.text();
+        try {
+          body = JSON.parse(rawBody);
+        } catch (e) {
+          // If it's not JSON, try to parse as URL-encoded form data
+          const params = new URLSearchParams(rawBody);
+          body = {};
+          params.forEach((value, key) => {
+            body[key] = value;
+          });
+          
+          // Check if there's a payload parameter that needs to be parsed as JSON
+          if (body.payload && typeof body.payload === 'string') {
+            try {
+              body = JSON.parse(body.payload);
+            } catch (e) {
+              // Keep as is if we can't parse the payload
+            }
+          }
+        }
+      }
+
+      // Handle URL verification challenge
+      if (body.type === 'url_verification') {
+        return new Response(body.challenge, { status: 200 });
+      }
+
+      // Create a ReceiverEvent for Bolt to process
+      const event: ReceiverEvent = {
+        body,
+        ack: async (response) => {
+          // This is handled automatically in our case
+        },
+        retryNum: request.headers.get('x-slack-retry-num') ? 
+          parseInt(request.headers.get('x-slack-retry-num') as string, 10) : 0,
+        retryReason: request.headers.get('x-slack-retry-reason') as string || undefined,
+      };
+
       // Process the event with Bolt
       await this.bolt.processEvent(event);
       return new Response('Success!', { status: 200 });
