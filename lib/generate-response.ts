@@ -1,6 +1,7 @@
 import { CoreMessage, generateText } from 'ai'
 import { SMALL_MODEL } from './ai/model'
 import { SYSTEM_PROMPT } from './ai/prompts'
+import { markdownToMrkdwn } from './bolt-app'
 
 export const generateResponse = async (
   messages: CoreMessage[],
@@ -16,5 +17,5 @@ export const generateResponse = async (
   })
 
   // Convert markdown to Slack mrkdwn format
-  return text.replace(/\[(.*?)\]\((.*?)\)/g, '<$2|$1>').replace(/\*\*/g, '*')
+  return markdownToMrkdwn(text)
 }
