@@ -1,7 +1,6 @@
 import { Assistant } from '@slack/bolt';
 import { generateResponse } from './generate-response';
 import { WELCOME_MESSAGE } from './ai/prompts';
-import { createButtonBlock } from './interactive-components';
 import { getThread, getBotId } from './bolt-app';
 
 // Create the Assistant instance
@@ -12,7 +11,7 @@ export const assistant = new Assistant({
     console.log(`Thread started: ${channel_id} ${thread_ts}`);
 
     // Send welcome message
-    await say(WELCOME_MESSAGE);
+    //await say(WELCOME_MESSAGE);
 
     // Set suggested prompts
     await setSuggestedPrompts({
@@ -79,14 +78,6 @@ export const assistant = new Assistant({
             }
           }
         ]
-      });
-
-      // Add an interactive follow-up message with a button
-      await client.chat.postMessage({
-        channel,
-        thread_ts,
-        text: "Would you like to know more?",
-        blocks: createButtonBlock("Would you like to know more about this topic?", "button_click", "learn_more")
       });
 
       // Clear status

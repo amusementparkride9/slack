@@ -1,9 +1,6 @@
 import { app } from '../lib/bolt-app';
 import { VercelReceiver } from '../lib/vercel-receiver';
 import { assistant } from '../lib/assistant-handler';
-// Import our interactive components and slash commands
-import '../lib/interactive-components';
-import '../lib/slash-commands';
 
 // Create a Vercel receiver instance
 const receiver = new VercelReceiver();
