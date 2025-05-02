@@ -1,6 +1,8 @@
 import { AppMentionEvent } from '@slack/web-api'
 import { client, getThread } from './slack-utils'
 import { generateResponse } from './generate-response'
+import { app } from './bolt-app'
+import { createButtonBlock } from './interactive-components'
 
 const updateStatusUtil = async (initialStatus: string, event: AppMentionEvent) => {
   const initialMessage = await client.chat.postMessage({
@@ -31,12 +33,23 @@ export async function handleNewAppMention(event: AppMentionEvent, botUserId: str
   const { thread_ts, channel } = event
   const updateMessage = await updateStatusUtil('is thinking...', event)
 
+  let result: string;
+  
   if (thread_ts) {
     const messages = await getThread(channel, thread_ts, botUserId)
-    const result = await generateResponse(messages, updateMessage)
-    await updateMessage(result)
+    result = await generateResponse(messages, updateMessage)
   } else {
-    const result = await generateResponse([{ role: 'user', content: event.text }], updateMessage)
-    await updateMessage(result)
+    result = await generateResponse([{ role: 'user', content: event.text }], updateMessage)
   }
+  
+  // Update the message with the AI response
+  await updateMessage(result)
+  
+  // Add an interactive follow-up message with a button
+  await client.chat.postMessage({
+    channel: event.channel,
+    thread_ts: thread_ts ?? event.ts,
+    text: "Would you like to know more?",
+    blocks: createButtonBlock("Would you like to know more about this topic?", "button_click", "learn_more")
+  })
 }
