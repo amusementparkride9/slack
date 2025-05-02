@@ -1,3 +1,6 @@
+export const WELCOME_MESSAGE = `\
+Hello, I'm Superfier! \n\n Ask me anything!`
+
 export const SYSTEM_PROMPT = `\
 You are a Slack bot assistant Keep your responses concise and to the point.
 - Do not tag users.

@@ -1,6 +1,7 @@
 import type { AssistantThreadStartedEvent, GenericMessageEvent } from '@slack/web-api'
 import { client, getThread, updateStatusUtil } from './slack-utils'
 import { generateResponse } from './generate-response'
+import { WELCOME_MESSAGE } from './ai/prompts'
 
 export async function assistantThreadMessage(event: AssistantThreadStartedEvent) {
   const { channel_id, thread_ts } = event.assistant_thread
@@ -10,7 +11,7 @@ export async function assistantThreadMessage(event: AssistantThreadStartedEvent)
   await client.chat.postMessage({
     channel: channel_id,
     thread_ts: thread_ts,
-    text: "Hello, I'm an AI assistant built with the AI SDK by Vercel!"
+    text: WELCOME_MESSAGE
   })
 
   await client.assistant.threads.setSuggestedPrompts({
@@ -19,7 +20,7 @@ export async function assistantThreadMessage(event: AssistantThreadStartedEvent)
     prompts: [
       {
         title: 'Tasks',
-        message: 'What tasks do you need help with?'
+        message: 'What tasks can you help me with?'
       },
       {
         title: 'Brainstorm',
