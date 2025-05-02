@@ -16,3 +16,14 @@ export async function getBotId(): Promise<string> {
   }
   return authTest.user_id;
 }
+
+// Create a utility function for updating thread status
+export function createStatusUpdater(channel: string, thread_ts: string) {
+  return async (status: string) => {
+    await app.client.assistant.threads.setStatus({
+      channel_id: channel,
+      thread_ts: thread_ts,
+      status: status
+    });
+  };
+}
