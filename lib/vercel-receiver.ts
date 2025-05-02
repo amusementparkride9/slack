@@ -1,4 +1,5 @@
 import { ReceiverEvent, Receiver, App, StringIndexed } from '@slack/bolt';
+import { waitUntil } from '@vercel/functions';
 
 export class VercelReceiver implements Receiver {
   private bolt: App<StringIndexed> | null = null;
@@ -91,8 +92,11 @@ export class VercelReceiver implements Receiver {
         retryReason: request.headers.get('x-slack-retry-reason') as string || undefined,
       };
 
-      // Process the event with Bolt
-      await this.bolt.processEvent(event);
+      // Use waitUntil for long-running operations
+      // This allows us to respond to Slack quickly while processing continues
+      waitUntil(this.bolt.processEvent(event));
+      
+      // Return immediate success response
       return new Response('Success!', { status: 200 });
     } catch (error) {
       console.error('Error processing Slack event:', error);
