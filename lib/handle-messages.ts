@@ -1,6 +1,5 @@
 import type { AssistantThreadStartedEvent, GenericMessageEvent } from '@slack/web-api'
-import { app, createStatusUpdater } from './bolt-app'
-import { getThread } from './slack-utils'
+import { app, createStatusUpdater, getThread } from './bolt-app'
 import { generateResponse } from './generate-response'
 import { WELCOME_MESSAGE } from './ai/prompts'
 import { createButtonBlock } from './interactive-components'

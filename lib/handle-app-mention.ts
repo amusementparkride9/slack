@@ -1,7 +1,6 @@
 import { AppMentionEvent } from '@slack/web-api'
-import { getThread } from './slack-utils'
+import { app, createStatusUpdater, getThread } from './bolt-app'
 import { generateResponse } from './generate-response'
-import { app, createStatusUpdater } from './bolt-app'
 import { createButtonBlock } from './interactive-components'
 
 export async function handleNewAppMention(event: AppMentionEvent, botUserId: string) {

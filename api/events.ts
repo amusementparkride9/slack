@@ -1,9 +1,8 @@
 import { waitUntil } from '@vercel/functions';
 import { app, getBotId } from '../lib/bolt-app';
 import { VercelReceiver } from '../lib/vercel-receiver';
-import { assistantThreadMessage } from '../lib/handle-messages';
+import { assistantThreadMessage, handleNewAssistantMessage } from '../lib/handle-messages';
 import { handleNewAppMention } from '../lib/handle-app-mention';
-import { handleNewAssistantMessage } from '../lib/handle-messages';
 // Import our interactive components and slash commands
 import '../lib/interactive-components';
 import '../lib/slash-commands';
