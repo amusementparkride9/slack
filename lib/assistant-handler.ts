@@ -3,6 +3,7 @@ import { Assistant } from '@slack/bolt'
 import { generateResponse } from './generate-response'
 import { WELCOME_MESSAGE } from './ai/prompts'
 import { getThread, getBotId } from './bolt-app'
+import { truncate } from './utils/truncate'
 
 // Create the Assistant instance
 export const assistant = new Assistant({
@@ -75,19 +76,16 @@ export const assistant = new Assistant({
         prompts: [
           // Ensure we always have at least one prompt (required by Slack's type)
           {
-            title:
-              structuredResponse.followups[0].length > 40
-                ? structuredResponse.followups[0].substring(0, 40) + '...'
-                : structuredResponse.followups[0],
+            title: truncate(structuredResponse.followups[0], 40),
             message: structuredResponse.followups[0]
           },
           // Add the remaining followups if they exist
           ...structuredResponse.followups.slice(1).map((followup) => ({
-            title: followup.length > 40 ? followup.substring(0, 40) + '...' : followup,
+            title: truncate(followup, 40),
             message: followup
           }))
         ],
-        title: 'What\`s next?'
+        title: 'What\`s next or send your own?'
       })
 
       // Post final response with message title and formatted content
