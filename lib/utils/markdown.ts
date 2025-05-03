@@ -15,9 +15,14 @@ const renderer = {
   },
 
   blockquote(token) {
+    // Process each line of the blockquote and prefix with >
     return token.tokens
-      .map((t) => ("> " + this.parser.parse([t])).trim())
-      .join("\n");
+      .map((t) => {
+        const parsed = this.parser.parse([t]).trim();
+        // Split by newlines to ensure each line has the > prefix
+        return parsed.split("\n").map(line => `> ${line}`).join("\n");
+      })
+      .join("\n") + "\n\n";
   },
 
   html(token) {
@@ -29,34 +34,36 @@ const renderer = {
   },
 
   heading(token) {
-    // Slack doesn't have true headings, so we'll make them bold and add newlines
+    // Make headings bold and add newlines
     return `*${token.text}*\n\n`;
   },
 
-  hr(token) {
-    return token.raw;
+  hr() {
+    // Use a series of dashes for horizontal rules
+    return "------------------------------\n\n";
   },
 
   list(token) {
-    const items = token.ordered
-      ? token.items.map(
-          (item, i) =>
-            `${Number(token.start) + i}. ${this.parser.parse(item.tokens)}`,
-        )
-      : token.items.map((item) => {
-          const marker = item.task ? (item.checked ? "☑️" : "☐") : "•";
-          return `${marker} ${this.parser.parse(item.tokens)}`;
-        });
+    // Process list items with proper indentation and formatting
+    const processListItems = (items: any[], isOrdered: boolean, indent = "") => {
+      return items.map((item: any, i: number) => {
+        // Determine the marker for this item
+        const marker = isOrdered 
+          ? `${Number(token.start) + i}.` 
+          : (item.task ? (item.checked ? "☑️" : "☐") : "•");
+        
+        // Parse the item content, preserving nested formatting
+        let content = this.parser.parse(item.tokens).trim();
+        
+        // Handle nested lists by adding indentation
+        content = content.split("\n").join(`\n${indent}  `);
+        
+        return `${indent}${marker} ${content}`;
+      }).join("\n");
+    };
 
-    const firstItem = token.items[0].raw;
-    const indentation = firstItem.match(/^(\s+)/)?.[0];
-    if (!indentation) {
-      return items.join("\n");
-    }
-
-    // If we have leading indentation, nest the list and preserve it
-    const newLine = token.ordered ? `\n${indentation} ` : `\n${indentation}`;
-    return newLine + items.join(newLine);
+    const result = processListItems(token.items, token.ordered);
+    return result + "\n\n";
   },
 
   listitem() {
@@ -72,7 +79,7 @@ const renderer = {
   },
 
   table() {
-    // Tables aren't well supported in mrkdwn, so we'll skip them
+    // Tables aren't well supported in mrkdwn
     return "";
   },
 
@@ -96,7 +103,9 @@ const renderer = {
   },
 
   codespan(token) {
-    return token.raw;
+    // Ensure code spans are properly formatted
+    const code = token.raw.replace(/`/g, "");
+    return `\`${code}\``;
   },
 
   br() {
@@ -117,9 +126,9 @@ const renderer = {
       : `<${url}|${text}>`;
   },
 
-  image() {
-    // Images aren't supported in mrkdwn
-    return "";
+  image(token) {
+    // For images, we'll just show the alt text and the URL
+    return token.text ? `[Image: ${token.text}] <${token.href}>` : `<${token.href}>`;
   },
 
   text(token) {
@@ -144,8 +153,19 @@ function cleanUrl(href: string) {
   }
 }
 
+// Additional preprocessing for markdown text
+function preprocessMarkdown(markdown: string): string {
+  // Handle horizontal rules (---) which might not be properly detected
+  return markdown.replace(/^---+$/gm, '<hr>');
+}
+
 // Configure marked with our custom renderer
-marked.use({ renderer });
+marked.use({ 
+  renderer,
+  // Enable GitHub Flavored Markdown features
+  gfm: true,
+  breaks: true
+});
 
 /**
  * Convert markdown to Slack's mrkdwn format
@@ -155,10 +175,15 @@ marked.use({ renderer });
 export function markdownToMrkdwn(markdown: string): string {
   if (!markdown) return '';
   
+  // Preprocess the markdown
+  const preprocessed = preprocessMarkdown(markdown);
+  
   return marked
-    .parse(markdown, {
+    .parse(preprocessed, {
       async: false,
       gfm: true, // GitHub Flavored Markdown
+      breaks: true // Convert line breaks to <br>
     })
+    .replace(/\n{3,}/g, '\n\n') // Remove excessive newlines
     .trimEnd();
 }
