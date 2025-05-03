@@ -9,7 +9,6 @@ export const responseSchema = z.object({
     response: z.string().describe('Detailed response to the user query, formatted with markdown'),
     followups: z
       .array(z.string())
-      .length(3)
       .describe('Three natural follow-up questions or requests the user might have')
   })
   
