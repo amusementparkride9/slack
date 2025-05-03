@@ -1,10 +1,19 @@
-import { openai } from '@ai-sdk/openai'
-
-// Export the model for use in generate-response.ts
-export const SMALL_MODEL = openai('gpt-4.1-mini')
+import { openai, OpenAIResponsesProviderOptions } from '@ai-sdk/openai'
+import { jsonRepairMiddleware } from './middleware'
+import { wrapLanguageModel } from 'ai'
 
 export const aiSettings = {
-  model: SMALL_MODEL,
+  model: wrapLanguageModel({
+    model: openai.responses('gpt-4.1'),
+    middleware: [jsonRepairMiddleware]
+  }),
   temperature: 0.3,
-  maxTokens: 1000
+  maxTokens: 5000,
+  providerOptions: {
+    openai: {
+      parallelToolCalls: false,
+      store: false,
+      strictSchemas: true,
+    } satisfies OpenAIResponsesProviderOptions,
+  },
 }

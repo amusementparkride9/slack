@@ -49,46 +49,23 @@ const renderer = {
   },
 
   list(token) {
-    // Process list items with proper indentation and formatting
-    const processListItems = (items: any[], isOrdered: boolean, indent = "", startNum = 1) => {
+    // Process list items with proper markers and Slack-friendly formatting
+    const processListItems = (items: any[], isOrdered: boolean, level = 0, startNum = 1) => {
       return items.map((item: any, i: number) => {
-        // Determine the marker for this item
-        const marker = isOrdered 
-          ? `${startNum + i}.` 
-          : (item.task ? (item.checked ? "☑️" : "☐") : "•");
-        
-        // Check if this item has nested lists
-        const hasNestedList = item.tokens.some((t: any) => t.type === 'list');
-        
-        // Parse the item content, excluding nested lists which we'll handle separately
-        const contentTokens = item.tokens.filter((t: any) => t.type !== 'list');
-        let content = contentTokens.length > 0 
-          ? this.parser.parse(contentTokens).trim() 
-          : '';
-        
-        // Get nested lists if any
-        const nestedLists = item.tokens.filter((t: any) => t.type === 'list');
-        
-        // Process nested lists with increased indentation
-        const nestedContent = nestedLists.map((list: any) => {
-          const nestedIndent = `${indent}    `;
-          return processListItems(
-            list.items, 
-            list.ordered, 
-            nestedIndent,
-            list.start || 1
-          );
-        }).join('\n');
-        
-        // Combine content with nested lists
-        const fullContent = content + (hasNestedList ? '\n' + nestedContent : '');
-        
-        return `${indent}${marker} ${fullContent}`;
+        // Use visible marker for sub-items (Slack doesn't support indentation)
+        const marker = isOrdered
+          ? `${level === 0 ? (startNum + i) + '.' : '→'}`
+          : `${level === 0 ? '•' : '→'}`;
+        // Parse all markdown in the item using the custom renderer
+        let content = this.parser.parse(item.tokens).trim();
+        // Remove extra newlines
+        content = content.replace(/^\n+|\n+$/g, '');
+        return `${marker} ${content}`;
       }).join('\n');
     };
-
-    const result = processListItems(token.items, token.ordered, '', token.start || 1);
-    return result + '\n\n';
+    
+    const start = typeof token.start === 'number' ? token.start : 1;
+    return processListItems(token.items, token.ordered, 0, start) + '\n\n';
   },
 
   listitem() {

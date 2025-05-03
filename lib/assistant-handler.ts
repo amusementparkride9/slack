@@ -1,6 +1,6 @@
 import { Assistant } from '@slack/bolt'
 
-import { generateResponse } from './generate-response'
+import { generateResponse } from './ai/generate-response'
 import { WELCOME_MESSAGE } from './ai/prompts'
 import { getThread, getBotId } from './bolt-app'
 import { truncate } from './utils/truncate'
@@ -19,19 +19,19 @@ export const assistant = new Assistant({
     await setSuggestedPrompts({
       prompts: [
         {
-          title: 'What tasks can you help me with?',
-          message: 'What tasks can you help me with?'
+          title: '📋 What tasks can you help me with?',
+          message: '📋 What tasks can you help me with?'
         },
         {
-          title: 'Brainstorm some ideas for a new project.',
-          message: 'Brainstorm some ideas for a new project.'
+          title: '💡 Brainstorm some ideas for a new project.',
+          message: '💡 Brainstorm some ideas for a new project.'
         },
         {
-          title: 'Draft an email to a client.',
-          message: 'Draft an email to a client.'
+          title: '📧 Draft an email to a client.',
+          message: '📧 Draft an email to a client.'
         }
       ],
-      title: 'Examples of how to use me'
+      title: '➡️ Examples of how to use me'
     })
   },
 
@@ -85,7 +85,7 @@ export const assistant = new Assistant({
             message: followup
           }))
         ],
-        title: 'What\`s next or send your own?'
+        title: '➡️ What\`s next? ✍️ Or write your own?'
       })
 
       // Post final response with message title and formatted content
@@ -105,6 +105,27 @@ export const assistant = new Assistant({
               type: 'mrkdwn',
               text: structuredResponse.response
             }
+          },
+          structuredResponse.sources?.length
+          ? 
+          {
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: '* 🔍 Sources:*\n' +
+                    structuredResponse.sources
+                      .map(
+                        (src) => `🔗 <${src.url}|${src.title}>`
+                      )
+                      .join('\n')
+                }
+              }
+          : {
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: ' '
+            }
           }
         ],
         text: structuredResponse.response // Fallback text
@@ -114,7 +135,7 @@ export const assistant = new Assistant({
       await setStatus('')
     } catch (error) {
       console.error('Error generating response:', error)
-      await say('Sorry, I encountered an error while generating a response.')
+      await say('💔 Sorry, I encountered an error while generating a response. 🔄 Please try again.')
       await setStatus('')
     }
   }
