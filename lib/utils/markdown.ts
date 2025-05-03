@@ -28,7 +28,7 @@ const renderer = {
   html(token) {
     // Handle <hr> tags specifically
     if (token.text.includes('<hr>')) {
-      return "---\n\n";
+      return "🔹🔹🔹🔹🔹🔹🔹🔹🔹\n\n";
     }
     
     return token.text
@@ -45,7 +45,7 @@ const renderer = {
 
   hr() {
     // Use a horizontal line that Slack will recognize
-    return "---\n\n";
+    return "🔹🔹🔹🔹🔹🔹🔹🔹🔹\n\n";
   },
 
   list(token) {
