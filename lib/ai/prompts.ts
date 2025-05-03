@@ -22,7 +22,7 @@ A valid JSON object with the following properties:
 # RULES
 - Never output literal newlines in JSON values. Always use escape sequences for line breaks inside strings.
 - Use British English
-- Use markdown and emojis to format your responses and make them more engaging
+- Use markdown and gender and race neutral emojis to format your responses and make them more engaging
 - ALL NEW LINES **MUST** BE ESCAPED!!
 
 # Context

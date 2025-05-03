@@ -6,6 +6,7 @@ export const jsonRepairMiddleware: LanguageModelV1Middleware = {
     const {text, ...rest} = await doGenerate();
 
     const repairedText = jsonrepair(text || '');
+    repairedText.replace('\\\\n', '\\n');
 
     if (text !== repairedText) {
       console.log('🧩 text', JSON.stringify(text, null, 2))
