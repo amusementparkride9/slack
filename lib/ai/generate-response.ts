@@ -45,7 +45,7 @@ export const generateResponse = async (
     console.error('⚠️ Error generating structured response:', error)
 
     // Fallback to basic response if structured generation fails
-    const { text } = await generateText({
+    const { text, response } = await generateText({
       model: aiSettings.model,
       system: SYSTEM_PROMPT,
       messages,
@@ -56,6 +56,7 @@ export const generateResponse = async (
     })
 
     console.log('🤖 Backup text gen:', text)
+    console.log('🤖 Backup response gen:', JSON.stringify(response, null, 2))
 
     // Return a basic structured response
     return {

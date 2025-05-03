@@ -105,6 +105,26 @@ export const assistant = new Assistant({
               type: 'mrkdwn',
               text: structuredResponse.response
             }
+          },
+          structuredResponse.sources?.length
+          ? {
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: '*Sources:*\n' +
+                    structuredResponse.sources
+                      .map(
+                        (src) => `• <${src.url}|${src.title}>`
+                      )
+                      .join('\n')
+                }
+              }
+          : {
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: ''
+            }
           }
         ],
         text: structuredResponse.response // Fallback text
