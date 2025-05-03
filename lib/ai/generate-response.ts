@@ -28,10 +28,10 @@ export const generateResponse = async (
     })
 
     console.log('🤖 experimental_output structured', experimental_output)
-    console.log('🤖 whole response', JSON.stringify(response, null, 2))
-    console.log('🤖 sources', JSON.stringify(sources, null, 2))
-    console.log('🤖 toolResults', JSON.stringify(toolResults, null, 2))
-    console.log('🤖 steps', JSON.stringify(steps, null, 2))
+    //console.log('🤖 whole response', JSON.stringify(response, null, 2))
+    //console.log('🤖 sources', JSON.stringify(sources, null, 2))
+    //console.log('🤖 toolResults', JSON.stringify(toolResults, null, 2))
+    //console.log('🤖 steps', JSON.stringify(steps, null, 2))
 
     // Convert markdown to Slack mrkdwn format in all text fields
     return {
