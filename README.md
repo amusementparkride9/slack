@@ -35,7 +35,7 @@ pnpm install
 {
   "display_information": {
     "name": "AI Assistant",
-    "description": "AI-powered assistant built with Bolt",
+    "description": "AI-powered assistant",
     "background_color": "#4A154B"
   },
   "features": {
