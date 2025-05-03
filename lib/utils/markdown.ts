@@ -39,31 +39,51 @@ const renderer = {
   },
 
   hr() {
-    // Use a series of dashes for horizontal rules
-    return "------------------------------\n\n";
+    // Use a horizontal line that Slack will recognize
+    return "------------------------\n\n";
   },
 
   list(token) {
     // Process list items with proper indentation and formatting
-    const processListItems = (items: any[], isOrdered: boolean, indent = "") => {
+    const processListItems = (items: any[], isOrdered: boolean, indent = "", startNum = 1) => {
       return items.map((item: any, i: number) => {
         // Determine the marker for this item
         const marker = isOrdered 
-          ? `${Number(token.start) + i}.` 
+          ? `${startNum + i}.` 
           : (item.task ? (item.checked ? "☑️" : "☐") : "•");
         
-        // Parse the item content, preserving nested formatting
-        let content = this.parser.parse(item.tokens).trim();
+        // Check if this item has nested lists
+        const hasNestedList = item.tokens.some((t: any) => t.type === 'list');
         
-        // Handle nested lists by adding indentation
-        content = content.split("\n").join(`\n${indent}  `);
+        // Parse the item content, excluding nested lists which we'll handle separately
+        const contentTokens = item.tokens.filter((t: any) => t.type !== 'list');
+        let content = contentTokens.length > 0 
+          ? this.parser.parse(contentTokens).trim() 
+          : '';
         
-        return `${indent}${marker} ${content}`;
-      }).join("\n");
+        // Get nested lists if any
+        const nestedLists = item.tokens.filter((t: any) => t.type === 'list');
+        
+        // Process nested lists with increased indentation
+        const nestedContent = nestedLists.map((list: any) => {
+          const nestedIndent = `${indent}    `;
+          return processListItems(
+            list.items, 
+            list.ordered, 
+            nestedIndent,
+            list.start || 1
+          );
+        }).join('\n');
+        
+        // Combine content with nested lists
+        const fullContent = content + (hasNestedList ? '\n' + nestedContent : '');
+        
+        return `${indent}${marker} ${fullContent}`;
+      }).join('\n');
     };
 
-    const result = processListItems(token.items, token.ordered);
-    return result + "\n\n";
+    const result = processListItems(token.items, token.ordered, '', token.start || 1);
+    return result + '\n\n';
   },
 
   listitem() {
@@ -156,7 +176,10 @@ function cleanUrl(href: string) {
 // Additional preprocessing for markdown text
 function preprocessMarkdown(markdown: string): string {
   // Handle horizontal rules (---) which might not be properly detected
-  return markdown.replace(/^---+$/gm, '<hr>');
+  return markdown
+    .replace(/^-{3,}$/gm, '<hr>')
+    .replace(/^\*{3,}$/gm, '<hr>')
+    .replace(/^_{3,}$/gm, '<hr>');
 }
 
 // Configure marked with our custom renderer
