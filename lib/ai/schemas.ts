@@ -13,7 +13,7 @@ export const responseSchema = z.object({
     sources: z
       .array(
         z.object({
-          url: z.string().url().describe('The URL of the source'),
+          url: z.string().describe('The URL of the source'),
           title: z.string().describe('The title or name of the source')
         })
       )
