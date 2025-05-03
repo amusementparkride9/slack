@@ -24,7 +24,7 @@ export const generateResponse = async (
         schema: responseSchema
       }),
       tools: tools,
-      providerOptions: aiSettings.providerOptions
+      providerOptions: aiSettings.providerOptions,
     })
 
     console.log('🤖 experimental_output structured', experimental_output)
@@ -41,7 +41,7 @@ export const generateResponse = async (
       followups: experimental_output.followups,
       sources: experimental_output.sources,
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error('⚠️ Error generating structured response:', error)
 
     // Fallback to basic response if structured generation fails
