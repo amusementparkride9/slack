@@ -1,8 +1,9 @@
 import { CoreMessage, generateText, Output } from 'ai'
+import slackify from 'slackify-markdown'
 import { aiSettings } from './model'
 import { tools } from './tools'
 import { SYSTEM_PROMPT } from './prompts'
-import { markdownToMrkdwn } from '../utils/markdown'
+
 import { responseSchema, StructuredResponse } from './schemas'
 
 export const generateResponse = async (
@@ -27,13 +28,13 @@ export const generateResponse = async (
     })
 
     console.log('🤖 experimental_output structured', experimental_output)
-    console.log('🤖 whole response', response)
+    console.log('🤖 whole response', JSON.stringify(response, null, 2))
 
     // Convert markdown to Slack mrkdwn format in all text fields
     return {
       title: experimental_output.title,
-      messageTitle: markdownToMrkdwn(experimental_output.messageTitle),
-      response: markdownToMrkdwn(experimental_output.response),
+      messageTitle: slackify(experimental_output.messageTitle),
+      response: slackify(experimental_output.response),
       followups: experimental_output.followups
     }
   } catch (error) {
@@ -56,7 +57,7 @@ export const generateResponse = async (
     return {
       title: 'Conversation',
       messageTitle: 'Response',
-      response: markdownToMrkdwn(text),
+      response: slackify(text),
       followups: ['Can you explain more?', 'What else should I know?', 'How does this work?']
     }
   }
