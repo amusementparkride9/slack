@@ -3,7 +3,6 @@ import { SMALL_MODEL } from './ai/model'
 import { SYSTEM_PROMPT } from './ai/prompts'
 import { markdownToMrkdwn } from './bolt-app'
 import { z } from 'zod'
-import { markdownToSlack } from 'md-to-slack'
 
 // Define the response schema
 const responseSchema = z.object({
@@ -43,8 +42,8 @@ export const generateResponse = async (
     // Convert markdown to Slack mrkdwn format in all text fields
     return {
       title: experimental_output.title,
-      messageTitle: markdownToSlack(experimental_output.messageTitle),
-      response: markdownToSlack(experimental_output.response),
+      messageTitle: markdownToMrkdwn(experimental_output.messageTitle),
+      response: markdownToMrkdwn(experimental_output.response),
       followups: experimental_output.followups
     }
   } catch (error) {
@@ -63,7 +62,7 @@ export const generateResponse = async (
     return {
       title: 'Conversation',
       messageTitle: 'Response',
-      response: markdownToSlack(text),
+      response: markdownToMrkdwn(text),
       followups: ['Can you explain more?', 'What else should I know?', 'How does this work?']
     }
   }

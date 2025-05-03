@@ -1,4 +1,5 @@
 import { Assistant } from '@slack/bolt'
+
 import { generateResponse } from './generate-response'
 import { WELCOME_MESSAGE } from './ai/prompts'
 import { getThread, getBotId } from './bolt-app'
