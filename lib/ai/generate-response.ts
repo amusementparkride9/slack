@@ -64,7 +64,7 @@ export const generateResponse = async (
       messageTitle: 'Response',
       response: slackify(text),
       followups: ['Can you explain more?', 'What else should I know?', 'How does this work?'],
-      sources: null,
+      sources: [],
     }
   }
 }

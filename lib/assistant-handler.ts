@@ -19,19 +19,19 @@ export const assistant = new Assistant({
     await setSuggestedPrompts({
       prompts: [
         {
-          title: 'What tasks can you help me with?',
-          message: 'What tasks can you help me with?'
+          title: '📋 What tasks can you help me with?',
+          message: '📋 What tasks can you help me with?'
         },
         {
-          title: 'Brainstorm some ideas for a new project.',
-          message: 'Brainstorm some ideas for a new project.'
+          title: '💡 Brainstorm some ideas for a new project.',
+          message: '💡 Brainstorm some ideas for a new project.'
         },
         {
-          title: 'Draft an email to a client.',
-          message: 'Draft an email to a client.'
+          title: '📧 Draft an email to a client.',
+          message: '📧 Draft an email to a client.'
         }
       ],
-      title: 'Examples of how to use me'
+      title: '➡️ Examples of how to use me'
     })
   },
 
@@ -107,7 +107,8 @@ export const assistant = new Assistant({
             }
           },
           structuredResponse.sources?.length
-          ? {
+          ? 
+          {
                 type: 'section',
                 text: {
                   type: 'mrkdwn',
@@ -123,7 +124,7 @@ export const assistant = new Assistant({
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: ''
+              text: ' '
             }
           }
         ],
@@ -134,7 +135,7 @@ export const assistant = new Assistant({
       await setStatus('')
     } catch (error) {
       console.error('Error generating response:', error)
-      await say('Sorry, I encountered an error while generating a response.')
+      await say('💔 Sorry, I encountered an error while generating a response. 🔄 Please try again.')
       await setStatus('')
     }
   }
