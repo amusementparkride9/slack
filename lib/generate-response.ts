@@ -1,15 +1,15 @@
 import { CoreMessage, generateText, Output } from 'ai'
 import { SMALL_MODEL } from './ai/model'
 import { SYSTEM_PROMPT } from './ai/prompts'
-import { markdownToMrkdwn } from './bolt-app'
+import { markdownToMrkdwn } from './utils/markdown'
 import { z } from 'zod'
 
 // Define the response schema
 const responseSchema = z.object({
   title: z
     .string()
-    .describe('A concise, engaging title for this conversation based on the context'),
-  messageTitle: z.string().describe('A brief, relevant title for this specific message'),
+    .describe('A concise, engaging title for this conversation based on the entire conversation'),
+  messageTitle: z.string().describe('A brief, relevant title for your response'),
   response: z.string().describe('Detailed response to the user query, formatted with markdown'),
   followups: z
     .array(z.string())
