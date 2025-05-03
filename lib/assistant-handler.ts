@@ -75,14 +75,14 @@ export const assistant = new Assistant({
           // Ensure we always have at least one prompt (required by Slack's type)
           {
             title:
-              structuredResponse.followups[0].length > 20
-                ? structuredResponse.followups[0].substring(0, 20) + '...'
+              structuredResponse.followups[0].length > 40
+                ? structuredResponse.followups[0].substring(0, 40) + '...'
                 : structuredResponse.followups[0],
             message: structuredResponse.followups[0]
           },
           // Add the remaining followups if they exist
           ...structuredResponse.followups.slice(1).map((followup) => ({
-            title: followup.length > 20 ? followup.substring(0, 20) + '...' : followup,
+            title: followup.length > 40 ? followup.substring(0, 40) + '...' : followup,
             message: followup
           }))
         ]

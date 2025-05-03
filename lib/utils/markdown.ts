@@ -26,6 +26,11 @@ const renderer = {
   },
 
   html(token) {
+    // Handle <hr> tags specifically
+    if (token.text.includes('<hr>')) {
+      return "------------------------\n\n";
+    }
+    
     return token.text
       .replace(/<br\s*\/{0,1}>/g, "\n")
       .replace(/<\/{0,1}del>/g, "~")

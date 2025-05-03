@@ -4,7 +4,7 @@
 
 1. **Better Message Formatting**
    ◦ Implement Block Kit for rich message layouts
-   ◦ Use **`md-to-slack`** for proper markdown conversion
+   ◦ Use **`markdownToMrkdwn`** for proper markdown conversion
    ◦ Add code block formatting with syntax highlighting
 2. **AI-Generated Thread Titles**
    ◦ Use **`setTitle`** in the Assistant class to summarize conversations
