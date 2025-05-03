@@ -85,7 +85,7 @@ export const assistant = new Assistant({
             message: followup
           }))
         ],
-        title: 'What\`s next or send your own?'
+        title: '➡️ What\`s next? ✍️ Or write your own?'
       })
 
       // Post final response with message title and formatted content
@@ -95,7 +95,7 @@ export const assistant = new Assistant({
             type: 'header',
             text: {
               type: 'plain_text',
-              text: structuredResponse.messageTitle,
+              text: "🦸‍♂️ " + structuredResponse.messageTitle,
               emoji: true
             }
           },
@@ -111,10 +111,10 @@ export const assistant = new Assistant({
                 type: 'section',
                 text: {
                   type: 'mrkdwn',
-                  text: '*Sources:*\n' +
+                  text: '* 🔍 Sources:*\n' +
                     structuredResponse.sources
                       .map(
-                        (src) => `• <${src.url}|${src.title}>`
+                        (src) => `🔗 <${src.url}|${src.title}>`
                       )
                       .join('\n')
                 }

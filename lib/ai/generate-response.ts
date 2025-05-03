@@ -10,7 +10,7 @@ export const generateResponse = async (
   messages: CoreMessage[],
   updateStatus?: (status: string) => void
 ): Promise<StructuredResponse> => {
-  updateStatus?.('is writing your response...')
+  updateStatus?.(' is thinking 🧠...')
 
   try {
     // Generate structured response
