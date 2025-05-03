@@ -22,7 +22,6 @@ export const generateResponse = async (
       experimental_output: Output.object({
         schema: responseSchema
       }),
-      tools: tools
     })
 
     // Convert markdown to Slack mrkdwn format in all text fields
@@ -41,7 +40,7 @@ export const generateResponse = async (
       system: SYSTEM_PROMPT,
       messages,
       temperature: aiSettings.temperature,
-      maxTokens: aiSettings.maxTokens
+      maxTokens: aiSettings.maxTokens,
     })
 
     // Return a basic structured response
