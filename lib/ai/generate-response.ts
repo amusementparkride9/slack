@@ -14,7 +14,7 @@ export const generateResponse = async (
 
   try {
     // Generate structured response
-    const { experimental_output, response } = await generateText({
+    const { experimental_output, response, sources, toolResults, steps } = await generateText({
       model: aiSettings.model,
       system: SYSTEM_PROMPT,
       messages,
@@ -29,13 +29,16 @@ export const generateResponse = async (
 
     console.log('🤖 experimental_output structured', experimental_output)
     console.log('🤖 whole response', JSON.stringify(response, null, 2))
+    console.log('🤖 sources', JSON.stringify(sources, null, 2))
+    console.log('🤖 toolResults', JSON.stringify(toolResults, null, 2))
+    console.log('🤖 steps', JSON.stringify(steps, null, 2))
 
     // Convert markdown to Slack mrkdwn format in all text fields
     return {
       title: experimental_output.title,
       messageTitle: slackify(experimental_output.messageTitle),
       response: slackify(experimental_output.response),
-      followups: experimental_output.followups
+      followups: experimental_output.followups,
     }
   } catch (error) {
     console.error('⚠️ Error generating structured response:', error)
