@@ -22,9 +22,10 @@
 ## **Phase 2: Knowledge & Search (Expanding Capabilities)**
 
 1. **Web Search Integration**
-   ◦ Implement Exa, SerpAPI, or Tavily for web search
-   ◦ Add citation links to search results
-   ◦ Include option to expand search results
+   - ✅ Implemented openai web (other options include Exa, SerpAPI, or Tavily) for web search
+   - ✅ Add citation links to search results
+   - ⬜ Test is openai package directly is better for handling malformed JSON responses (i.e. is it easier to handle errors)
+   - ⬜ Test if language middleware can handle JSON repair
 2. **PDF Document Support**
    ◦ Allow uploading and querying PDFs
    ◦ Implement document chunking and embedding
