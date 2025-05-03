@@ -13,7 +13,7 @@ export const generateResponse = async (
 
   try {
     // Generate structured response
-    const { experimental_output } = await generateText({
+    const { experimental_output, response } = await generateText({
       model: aiSettings.model,
       system: SYSTEM_PROMPT,
       messages,
@@ -27,6 +27,7 @@ export const generateResponse = async (
     })
 
     console.log('🤖 experimental_output structured', experimental_output)
+    console.log('🤖 whole response', response)
 
     // Convert markdown to Slack mrkdwn format in all text fields
     return {
