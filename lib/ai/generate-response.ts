@@ -23,7 +23,10 @@ export const generateResponse = async (
         schema: responseSchema
       }),
       tools: tools,
+      providerOptions: aiSettings.providerOptions
     })
+
+    console.log('🤖 experimental_output structured', experimental_output)
 
     // Convert markdown to Slack mrkdwn format in all text fields
     return {
@@ -33,7 +36,7 @@ export const generateResponse = async (
       followups: experimental_output.followups
     }
   } catch (error) {
-    console.error('Error generating structured response:', error)
+    console.error('⚠️ Error generating structured response:', error)
 
     // Fallback to basic response if structured generation fails
     const { text } = await generateText({
@@ -43,7 +46,10 @@ export const generateResponse = async (
       temperature: aiSettings.temperature,
       maxTokens: aiSettings.maxTokens,
       tools: tools,
+      providerOptions: aiSettings.providerOptions
     })
+
+    console.log('🤖 Backup text gen:', text)
 
     // Return a basic structured response
     return {
