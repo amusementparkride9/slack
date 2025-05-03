@@ -95,7 +95,7 @@ export const assistant = new Assistant({
             type: 'header',
             text: {
               type: 'plain_text',
-              text: "🦸‍♂️ " + structuredResponse.messageTitle,
+              text: structuredResponse.messageTitle,
               emoji: true
             }
           },

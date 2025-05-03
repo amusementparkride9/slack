@@ -6,7 +6,7 @@ export const responseSchema = z.object({
       .string()
       .describe('A concise, engaging title for this conversation based on the entire conversation'),
     messageTitle: z.string().describe('A brief, relevant title for your response'),
-    response: z.string().describe('Detailed response to the user query. ALL NEW LINES MUST BE ESCAPED!!'),
+    response: z.string().describe('Detailed response to the user query.'),
     followups: z
       .array(z.string())
       .describe('Three natural follow-up questions or requests the user might have'),
