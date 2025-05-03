@@ -1,5 +1,5 @@
 export const WELCOME_MESSAGE = `\
-👋 Hello, I'm Superfier 🦸‍♂️ Ask me anything! 🤔`
+👋 Hello, I'm Superfier 🦸 Ask me anything!`
 
 export const SYSTEM_PROMPT = `\
 # Role
