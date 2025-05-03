@@ -39,6 +39,7 @@ export const generateResponse = async (
       messageTitle: slackify(experimental_output.messageTitle),
       response: slackify(experimental_output.response),
       followups: experimental_output.followups,
+      sources: experimental_output.sources,
     }
   } catch (error) {
     console.error('⚠️ Error generating structured response:', error)
@@ -61,7 +62,8 @@ export const generateResponse = async (
       title: 'Conversation',
       messageTitle: 'Response',
       response: slackify(text),
-      followups: ['Can you explain more?', 'What else should I know?', 'How does this work?']
+      followups: ['Can you explain more?', 'What else should I know?', 'How does this work?'],
+      sources: null,
     }
   }
 }
