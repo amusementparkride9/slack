@@ -18,18 +18,19 @@ export const assistant = new Assistant({
     await setSuggestedPrompts({
       prompts: [
         {
-          title: 'Tasks',
+          title: 'What tasks can you help me with?',
           message: 'What tasks can you help me with?'
         },
         {
-          title: 'Brainstorm',
+          title: 'Brainstorm some ideas for a new project.',
           message: 'Brainstorm some ideas for a new project.'
         },
         {
-          title: 'Draft an email',
+          title: 'Draft an email to a client.',
           message: 'Draft an email to a client.'
         }
-      ]
+      ],
+      title: 'Examples of how to use me'
     })
   },
 
@@ -85,7 +86,8 @@ export const assistant = new Assistant({
             title: followup.length > 40 ? followup.substring(0, 40) + '...' : followup,
             message: followup
           }))
-        ]
+        ],
+        title: 'What\`s next?'
       })
 
       // Post final response with message title and formatted content
