@@ -1,5 +1,6 @@
 import { CoreMessage, generateText, Output } from 'ai'
 import { aiSettings } from './model'
+import { tools } from './tools'
 import { SYSTEM_PROMPT } from './prompts'
 import { markdownToMrkdwn } from '../utils/markdown'
 import { responseSchema, StructuredResponse } from './schemas'
@@ -20,7 +21,8 @@ export const generateResponse = async (
       maxTokens: aiSettings.maxTokens,
       experimental_output: Output.object({
         schema: responseSchema
-      })
+      }),
+      tools: tools
     })
 
     // Convert markdown to Slack mrkdwn format in all text fields
