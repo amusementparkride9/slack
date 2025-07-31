@@ -1,8 +1,9 @@
 import { app } from '../lib/bolt-app'
 import { VercelReceiver } from '../lib/vercel-receiver'
-import { assistant } from '../lib/assistant-handler'
+import { smartAssistant } from '../lib/smart-assistant-handler'
 import { getChannelInfo, isBotOnlyChannel, postChannelWelcome } from '../lib/channel-config'
 import { registerAdminCommands } from '../lib/admin-commands'
+import { getBotId } from '../lib/bolt-app'
 
 // Create a Vercel receiver instance
 const receiver = new VercelReceiver()
@@ -10,11 +11,31 @@ const receiver = new VercelReceiver()
 // Initialize the receiver with our Bolt app
 receiver.init(app)
 
-// Register the assistant with the app
-app.assistant(assistant)
+// Register the smart assistant with the app
+app.assistant(smartAssistant)
 
 // Register admin commands
 registerAdminCommands()
+
+// Handle direct messages and thread replies - Smart assistant handles intelligent engagement
+app.message(async ({ message, say, client }) => {
+  const msg = message as any
+  
+  // Skip bot messages
+  if (msg.bot_id || msg.subtype === 'bot_message') return
+  
+  // Get channel information
+  const channelInfo = await getChannelInfo(msg.channel)
+  const isDirectMessage = channelInfo?.is_im || channelInfo?.is_mpim
+  
+  // For direct messages, provide a simple acknowledgment since smart assistant will handle the conversation
+  if (isDirectMessage && !msg.text?.includes(`<@${await getBotId()}>`)) {
+    await say({
+      text: `👋 I'm here to help! Ask me about commissions, sales strategies, company policies, or anything work-related.`,
+      thread_ts: msg.thread_ts || msg.ts
+    })
+  }
+})
 
 // Handle regular messages in channels to enforce bot-only policy
 app.message(async ({ message, client }) => {
@@ -78,15 +99,23 @@ app.event('member_joined_channel', async ({ event }) => {
   await postChannelWelcome(event.channel, event.user)
 })
 
-// Handle app mentions to ensure the bot responds appropriately
+// Handle app mentions - Smart assistant will take over conversation handling
 app.event('app_mention', async ({ event, say }) => {
   // Get channel information
   const channelInfo = await getChannelInfo(event.channel)
   const channelName = channelInfo?.name || ''
   
-  // Respond to all mentions with helpful information
+  // Provide initial response - smart assistant will handle follow-ups
   await say({
-    text: `👋 Hi there! I'm your Sales Assistant. I can help with commission calculations, sales tips, company policies, and more! For the best experience, start an Assistant thread with me by clicking the "Assistant" button or just ask me anything directly.`,
+    text: `👋 Hi! I'm your Sales Assistant powered by AI. I can help with:
+    
+• 💰 Commission calculations and earnings forecasts
+• 📊 Product tier lookups (Platinum, Gold, Silver, Bronze)
+• 📋 Company policies and procedures
+• 🎯 Sales strategies and scripts
+• ❓ General work questions
+
+Just continue the conversation - I'll keep responding without needing @ mentions!`,
     thread_ts: event.ts
   })
 })

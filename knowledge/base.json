@@ -1,0 +1,50 @@
+[
+  {
+    "id": "commission-structure",
+    "title": "Commission Structure",
+    "content": "Our commission structure is based on performance tiers:\n\n• Tier 1 (0-$50k monthly): 8% commission\n• Tier 2 ($50k-$100k monthly): 10% commission  \n• Tier 3 ($100k+ monthly): 12% commission\n\nCommissions are paid on the 15th of each month for the previous month's sales. All sales must be verified and completed to count toward commission calculations.",
+    "category": "compensation",
+    "tags": ["commission", "pay", "salary", "earnings", "tiers"],
+    "lastUpdated": "2025-01-31"
+  },
+  {
+    "id": "lead-generation",
+    "title": "Lead Generation Best Practices",
+    "content": "Effective lead generation strategies:\n\n• **Cold Outreach**: Research prospects thoroughly before reaching out\n• **Social Media**: Use LinkedIn and industry forums to connect\n• **Referrals**: Ask satisfied clients for referrals - they convert 3x better\n• **Content Marketing**: Share valuable insights to attract prospects\n• **Networking Events**: Attend industry conferences and local business meetups\n\nTrack all leads in our CRM system and follow up within 24 hours.",
+    "category": "sales-tips",
+    "tags": ["leads", "prospecting", "outreach", "networking", "crm"],
+    "lastUpdated": "2025-01-31"
+  },
+  {
+    "id": "expense-policy",
+    "title": "Expense Reimbursement Policy",
+    "content": "Reimbursable expenses for independent contractors:\n\n**Approved Expenses:**\n• Client meeting meals (up to $100 per meeting)\n• Travel expenses for client visits (mileage at $0.65/mile)\n• Professional development courses (pre-approved)\n• Business phone/internet (50% reimbursement)\n\n**Submission Process:**\n1. Keep all receipts\n2. Submit through expense portal by month-end\n3. Include client name and meeting purpose\n4. Reimbursement processed within 10 business days",
+    "category": "policies",
+    "tags": ["expenses", "reimbursement", "travel", "meals", "receipts"],
+    "lastUpdated": "2025-01-31"
+  },
+  {
+    "id": "crm-usage",
+    "title": "CRM System Usage",
+    "content": "How to use our CRM effectively:\n\n**Daily Tasks:**\n• Log all client interactions within 2 hours\n• Update deal stages after each conversation\n• Set follow-up reminders for next actions\n\n**Weekly Tasks:**\n• Review pipeline and update forecasts\n• Clean up old leads and mark status\n• Generate activity reports\n\n**Monthly Tasks:**\n• Analyze conversion rates by source\n• Update client contact information\n• Archive completed deals\n\nCRM login: portal.company.com (use your company email)",
+    "category": "tools",
+    "tags": ["crm", "pipeline", "leads", "tracking", "reports"],
+    "lastUpdated": "2025-01-31"
+  },
+  {
+    "id": "objection-handling",
+    "title": "Common Objection Handling",
+    "content": "How to handle common sales objections:\n\n**\"It's too expensive\"**\n→ Focus on ROI and long-term value\n→ Break down cost per month/day\n→ Compare to cost of not solving the problem\n\n**\"We need to think about it\"**\n→ Ask what specific concerns they have\n→ Address each concern directly\n→ Create urgency with limited-time offers\n\n**\"We're happy with our current solution\"**\n→ Ask about current challenges\n→ Highlight unique differentiators\n→ Suggest a pilot program\n\n**\"Not the right time\"**\n→ Understand their timeline\n→ Stay in touch with valuable content\n→ Ask when would be better",
+    "category": "sales-tips",
+    "tags": ["objections", "closing", "negotiation", "price", "timing"],
+    "lastUpdated": "2025-01-31"
+  },
+  {
+    "id": "onboarding-checklist",
+    "title": "New Contractor Onboarding",
+    "content": "Welcome! Here's your onboarding checklist:\n\n**Week 1:**\n□ Complete compliance training\n□ Set up CRM access\n□ Review product documentation\n□ Schedule manager 1:1 meeting\n\n**Week 2:**\n□ Shadow experienced contractor\n□ Practice product demos\n□ Learn objection handling scripts\n□ Set up expense tracking\n\n**Week 3:**\n□ First supervised client call\n□ Review commission structure\n□ Join team Slack channels\n□ Complete first deal registration\n\n**Ongoing:**\n□ Weekly team meetings (Tuesdays 10am)\n□ Monthly training sessions\n□ Quarterly performance reviews",
+    "category": "onboarding",
+    "tags": ["onboarding", "checklist", "training", "setup", "new"],
+    "lastUpdated": "2025-01-31"
+  }
+]

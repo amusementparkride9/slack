@@ -1,5 +1,6 @@
 import { app } from './bolt-app'
 import { postAnnouncement, scheduleAnnouncement } from './channel-config'
+import { simpleKnowledge } from './knowledge/simple'
 
 // Add slash command handlers for managing the bot
 export function registerAdminCommands() {
@@ -107,6 +108,77 @@ ${!announcementsChannel || !supportChannel ? '\n⚠️ Some managed channels are
       await respond({
         response_type: 'ephemeral',
         text: '❌ Error getting channel status.'
+      })
+    }
+  })
+
+  // Knowledge base management commands
+  app.command('/kb', async ({ command, ack, respond }) => {
+    await ack()
+    
+    const args = command.text.trim().split(' ')
+    const subcommand = args[0]
+    
+    try {
+      switch (subcommand) {
+        case 'refresh':
+          simpleKnowledge.refresh()
+          await respond({
+            response_type: 'ephemeral',
+            text: '✅ Knowledge base refreshed successfully!'
+          })
+          break
+          
+        case 'search':
+          const query = args.slice(1).join(' ')
+          if (!query) {
+            await respond({
+              response_type: 'ephemeral',
+              text: 'Please provide a search query. Usage: `/kb search commission structure`'
+            })
+            return
+          }
+          
+          const results = simpleKnowledge.searchKnowledge(query)
+          if (!results) {
+            await respond({
+              response_type: 'ephemeral',
+              text: `No knowledge base items found for "${query}"`
+            })
+            return
+          }
+          
+          await respond({
+            response_type: 'ephemeral',
+            text: `🔍 **Knowledge Base Search Results for "${query}":**\n\n${results}`
+          })
+          break
+          
+        case 'summary':
+          const summary = simpleKnowledge.getSummary()
+          await respond({
+            response_type: 'ephemeral',
+            text: summary
+          })
+          break
+          
+        default:
+          await respond({
+            response_type: 'ephemeral',
+            text: `🤖 **Knowledge Base Commands:**
+
+• \`/kb refresh\` - Refresh knowledge from files
+• \`/kb search <query>\` - Search knowledge base  
+• \`/kb summary\` - Show knowledge summary
+
+Example: \`/kb search spectrum commission\``
+          })
+      }
+    } catch (error) {
+      console.error('Error with knowledge base command:', error)
+      await respond({
+        response_type: 'ephemeral',
+        text: '❌ Error processing knowledge base command.'
       })
     }
   })
