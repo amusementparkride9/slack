@@ -79,10 +79,11 @@ export async function getChannelInfo(channelId: string) {
 
 // Check if a channel is managed by the bot
 export function isManagedChannel(channelName: string): boolean {
-  return getChannelConfig(channelName) !== null
+  // Always return true - bot works in ALL channels
+  return true
 }
 
-// Check if a channel is bot-only
+// Check if a channel is bot-only (only for specific configured channels)
 export function isBotOnlyChannel(channelName: string): boolean {
   const config = getChannelConfig(channelName)
   return config?.botOnly === true
@@ -91,19 +92,44 @@ export function isBotOnlyChannel(channelName: string): boolean {
 // Get channel-specific system prompt
 export function getChannelSystemPrompt(channelName: string): string {
   const config = getChannelConfig(channelName)
-  return config?.systemPrompt || ''
+  // If no specific config, return a general sales assistant prompt
+  return config?.systemPrompt || `You are a helpful AI assistant for sales contractors. You can help with:
+- Commission calculations and payroll questions
+- Sales processes and best practices  
+- Company policies and procedures
+- Training and development
+- General business support
+
+Use the available tools when appropriate and be helpful, professional, and supportive.`
 }
 
 // Get channel-specific welcome message
 export function getChannelWelcomeMessage(channelName: string): string {
   const config = getChannelConfig(channelName)
-  return config?.welcomeMessage || ''
+  // If no specific config, return a general welcome message
+  return config?.welcomeMessage || `👋 **Hello! I'm your Sales Assistant**
+
+I'm here to help with:
+• Commission calculations and payroll
+• Sales strategies and best practices
+• Company policies and procedures  
+• Training resources and development
+• General business support
+
+How can I help you today? 🚀`
 }
 
 // Get channel-specific suggested prompts
 export function getChannelSuggestedPrompts(channelName: string): readonly string[] {
   const config = getChannelConfig(channelName)
-  return config?.suggestedPrompts || []
+  // If no specific config, return general sales assistant prompts
+  return config?.suggestedPrompts || [
+    '💰 Calculate my commission for recent sales',
+    '🎯 Give me sales tips and best practices',
+    '📋 What company policies should I know?',
+    '📚 Find training resources to improve my skills',
+    '❓ Help me with a specific question'
+  ]
 }
 
 // Post announcement to the announcements channel

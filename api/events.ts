@@ -84,14 +84,11 @@ app.event('app_mention', async ({ event, say }) => {
   const channelInfo = await getChannelInfo(event.channel)
   const channelName = channelInfo?.name || ''
   
-  // If it's a managed channel, let the assistant handle it
-  // Otherwise, provide a basic response
-  if (!channelName.includes('announcements') && !channelName.includes('questions-and-support')) {
-    await say({
-      text: `👋 Hi there! I primarily manage the #announcements and #questions-and-support channels. For the best experience, please ask your questions in <#questions-and-support>!`,
-      thread_ts: event.ts
-    })
-  }
+  // Respond to all mentions with helpful information
+  await say({
+    text: `👋 Hi there! I'm your Sales Assistant. I can help with commission calculations, sales tips, company policies, and more! For the best experience, start an Assistant thread with me by clicking the "Assistant" button or just ask me anything directly.`,
+    thread_ts: event.ts
+  })
 })
 
 export async function POST(request: Request) {
