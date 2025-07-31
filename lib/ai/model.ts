@@ -9,7 +9,7 @@ const google = createGoogleGenerativeAI({
 
 export const aiSettings = {
   model: wrapLanguageModel({
-    model: google('gemini-1.5-pro'),
+    model: google('gemini-2.5-pro'),
     middleware: [jsonRepairMiddleware]
   }),
   temperature: 0.3,

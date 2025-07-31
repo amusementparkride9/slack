@@ -33,7 +33,7 @@ async function testGeminiIntegration() {
 
   try {
     const { object } = await generateObject({
-      model: google('gemini-1.5-pro'),
+      model: google('gemini-2.5-pro'),
       schema: TestSchema,
       messages: [
         { 

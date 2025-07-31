@@ -1,11 +1,11 @@
 # Sales Team AI Assistant - Slack Bot
 
-A comprehensive AI-powered Slack bot built with @slack/bolt and Google Gemini for managing independent sales contractor channels.
+A comprehensive AI-powered Slack bot built with @slack/bolt and Google Gemini 2.5 Pro for managing independent sales contractor channels.
 
 ## Features
 
 - 🏢 **Complete Channel Management**: Bot-only announcements and interactive support channels
-- 🤖 **Advanced AI Assistant**: Powered by Google Gemini for intelligent responses
+- 🤖 **Advanced AI Assistant**: Powered by Google Gemini 2.5 Pro for intelligent responses
 - 💰 **Commission Calculator**: Accurate commission calculations with bonus tiers
 - 📋 **Company Policy Database**: Instant lookup of vacation, expense, and HR policies
 - 🎯 **Sales Coaching**: Stage-specific guidance with proven scripts and techniques
@@ -18,7 +18,7 @@ A comprehensive AI-powered Slack bot built with @slack/bolt and Google Gemini fo
 ## Tech Stack
 
 - [@slack/bolt](https://slack.dev/bolt-js): Modern Slack app framework with Assistant class
-- [Google Gemini](https://ai.google.dev/): Advanced AI model for natural conversations
+- [Google Gemini 2.5 Pro](https://ai.google.dev/): Advanced AI model for natural conversations
 - [Vercel AI SDK](https://sdk.vercel.ai/docs): Flexible AI integration framework
 - [TypeScript](https://www.typescriptlang.org/): Type-safe development
 - [Vercel Functions](https://vercel.com/docs/functions): Serverless deployment
