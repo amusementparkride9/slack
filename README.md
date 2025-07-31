@@ -1,19 +1,25 @@
-# Bolt AI Slack Bot
+# Sales Team AI Assistant - Slack Bot
 
-A minimalist AI-powered Slack bot built with @slack/bolt and Vercel AI SDK. This bot uses Slack's Assistant class for a seamless AI experience in your workspace.
+A comprehensive AI-powered Slack bot built with @slack/bolt and Google Gemini for managing independent sales contractor channels.
 
 ## Features
 
-- **AI Assistant**: Responds to messages and provides AI-generated answers
-- **Thread Context Awareness**: Maintains conversation context in threads
-- **Suggested Prompts**: Offers helpful prompt suggestions to users
-- **Status Updates**: Shows typing indicators during response generation
-- **Vercel Integration**: Optimized for serverless deployment with proper timeout handling
+- 🏢 **Complete Channel Management**: Bot-only announcements and interactive support channels
+- 🤖 **Advanced AI Assistant**: Powered by Google Gemini for intelligent responses
+- 💰 **Commission Calculator**: Accurate commission calculations with bonus tiers
+- 📋 **Company Policy Database**: Instant lookup of vacation, expense, and HR policies
+- 🎯 **Sales Coaching**: Stage-specific guidance with proven scripts and techniques
+- 📚 **Training Resources**: Personalized recommendations by skill level
+- 🔍 **Knowledge Base**: Comprehensive guidance for sales contractors
+- 🧵 **Thread Context Awareness**: Maintains conversation context in threads
+- 📢 **Announcement System**: Professional announcements with admin controls
+- ⚡ **Real-time Support**: Instant responses to contractor questions
 
 ## Tech Stack
 
 - [@slack/bolt](https://slack.dev/bolt-js): Modern Slack app framework with Assistant class
-- [Vercel AI SDK](https://sdk.vercel.ai/docs): Flexible AI response generation
+- [Google Gemini](https://ai.google.dev/): Advanced AI model for natural conversations
+- [Vercel AI SDK](https://sdk.vercel.ai/docs): Flexible AI integration framework
 - [TypeScript](https://www.typescriptlang.org/): Type-safe development
 - [Vercel Functions](https://vercel.com/docs/functions): Serverless deployment
 
@@ -34,8 +40,8 @@ pnpm install
 ```json
 {
   "display_information": {
-    "name": "AI Assistant",
-    "description": "AI-powered assistant",
+    "name": "Sales Team Assistant",
+    "description": "AI assistant for managing sales contractor channels",
     "background_color": "#4A154B"
   },
   "features": {
@@ -45,9 +51,24 @@ pnpm install
       "messages_tab_read_only_enabled": false
     },
     "bot_user": {
-      "display_name": "AI Assistant",
+      "display_name": "Sales Assistant",
       "always_online": true
-    }
+    },
+    "slash_commands": [
+      {
+        "command": "/announce",
+        "description": "Post an announcement to the announcements channel",
+        "usage_hint": "Your announcement message here"
+      },
+      {
+        "command": "/bot-help",
+        "description": "Get help about the Sales Team Assistant bot"
+      },
+      {
+        "command": "/channel-status",
+        "description": "Check the status of managed channels"
+      }
+    ]
   },
   "oauth_config": {
     "scopes": {
@@ -56,10 +77,13 @@ pnpm install
         "channels:history",
         "channels:read",
         "chat:write",
+        "chat:write.public",
+        "commands",
         "im:history",
         "im:read",
         "im:write",
-        "assistant:write"
+        "assistant:write",
+        "users:read"
       ]
     }
   },
@@ -67,9 +91,11 @@ pnpm install
     "event_subscriptions": {
       "bot_events": [
         "app_mention",
+        "message.channels",
         "message.im",
         "assistant_thread_started",
-        "assistant_thread_context_changed"
+        "assistant_thread_context_changed",
+        "member_joined_channel"
       ]
     },
     "interactivity": {
@@ -91,7 +117,7 @@ Create a `.env.local` file with the following variables:
 ```
 SLACK_BOT_TOKEN=xoxb-your-bot-token
 SLACK_SIGNING_SECRET=your-signing-secret
-OPENAI_API_KEY=your-openai-api-key
+GOOGLE_GENERATIVE_AI_API_KEY=your-gemini-api-key
 ```
 
 ### 4. Run Locally (Development)

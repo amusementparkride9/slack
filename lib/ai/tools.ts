@@ -1,11 +1,6 @@
-import { openai } from '@ai-sdk/openai'
+import { knowledgeBaseTools } from './knowledge-tools'
 
 export const tools = {
-    web_search_preview: openai.tools.webSearchPreview({
-      searchContextSize: 'high',
-      userLocation: {
-        type: 'approximate',
-        country: 'GB' // TODO: Get proper location, slack doesn't support IP's or what not, so probably best to get location from a user input
-      },
-    }),
+  // Gemini has built-in web search capabilities, so we primarily use knowledge base tools
+  ...knowledgeBaseTools,
 }

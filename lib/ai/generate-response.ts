@@ -2,21 +2,27 @@ import { CoreMessage, generateText, Output } from 'ai'
 import slackify from 'slackify-markdown'
 import { aiSettings } from './model'
 import { tools } from './tools'
-import { SYSTEM_PROMPT } from './prompts'
+import { SYSTEM_PROMPT, buildChannelSystemPrompt } from './prompts'
 
 import { responseSchema, StructuredResponse } from './schemas'
 
 export const generateResponse = async (
   messages: CoreMessage[],
-  updateStatus?: (status: string) => void
+  updateStatus?: (status: string) => void,
+  channelSystemPrompt?: string
 ): Promise<StructuredResponse> => {
   updateStatus?.(' is thinking 🧠...')
+
+  // Build the system prompt with channel-specific instructions
+  const systemPrompt = channelSystemPrompt 
+    ? buildChannelSystemPrompt(SYSTEM_PROMPT, channelSystemPrompt)
+    : SYSTEM_PROMPT
 
   try {
     // Generate structured response
     const { experimental_output, response, sources, toolResults, steps } = await generateText({
       model: aiSettings.model,
-      system: SYSTEM_PROMPT,
+      system: systemPrompt,
       messages,
       temperature: aiSettings.temperature,
       maxTokens: aiSettings.maxTokens,
@@ -47,7 +53,7 @@ export const generateResponse = async (
     // Fallback to basic response if structured generation fails
     const { text, response } = await generateText({
       model: aiSettings.model,
-      system: SYSTEM_PROMPT,
+      system: systemPrompt,
       messages,
       temperature: aiSettings.temperature,
       maxTokens: aiSettings.maxTokens,
