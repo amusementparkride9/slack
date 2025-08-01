@@ -11,8 +11,8 @@ const receiver = new VercelReceiver()
 // Initialize the receiver with our Bolt app
 receiver.init(app)
 
-// Register the smart assistant with the app
-app.assistant(smartAssistant)
+// NOTE: Smart Assistant disabled to avoid permission issues with conversation history
+// app.assistant(smartAssistant)
 
 // Register admin commands
 registerAdminCommands()
@@ -54,18 +54,20 @@ app.message(async ({ message, say, client }) => {
       
       console.log('Generated response:', response)
       
-      // Send the actual AI response, not a generic message
+      // Send the actual AI response
       await say({
         text: response.response,
         thread_ts: msg.thread_ts || msg.ts
       })
       
+      console.log('✅ Response sent successfully!')
+      
     } catch (error) {
-      console.error('Error in DM response:', error)
+      console.error('❌ Error in DM:', error)
       const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-      // Only send fallback if there's actually an error
+      
       await say({
-        text: `💔 Sorry, I encountered an error: ${errorMessage}. Please try asking me about commissions, providers, or sales questions again!`,
+        text: `System hiccup - ${errorMessage}`,
         thread_ts: msg.thread_ts || msg.ts
       })
     }

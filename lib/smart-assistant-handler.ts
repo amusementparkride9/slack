@@ -263,8 +263,14 @@ export const smartAssistant = new Assistant({
     await setStatus('is thinking...')
 
     try {
-      // Get thread history
-      const messages = await getThread(channel, thread_ts, botUserId)
+      // DON'T get thread history - use only current message to avoid permission issues
+      // const messages = await getThread(channel, thread_ts, botUserId)
+      
+      // Create simple message array from current message only
+      const messages = [{
+        role: 'user' as const,
+        content: msg.text || 'Hello'
+      }]
 
       // Generate response with progress updates
       const updateStatus = async (status: string) => {
