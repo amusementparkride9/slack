@@ -99,23 +99,10 @@ app.event('member_joined_channel', async ({ event }) => {
   await postChannelWelcome(event.channel, event.user)
 })
 
-// Handle app mentions - Smart assistant will take over conversation handling
+// Handle app mentions by directing users to start an Assistant thread
 app.event('app_mention', async ({ event, say }) => {
-  // Get channel information
-  const channelInfo = await getChannelInfo(event.channel)
-  const channelName = channelInfo?.name || ''
-  
-  // Provide initial response - smart assistant will handle follow-ups
   await say({
-    text: `👋 Hi! I'm your Sales Assistant powered by AI. I can help with:
-    
-• 💰 Commission calculations and earnings forecasts
-• 📊 Product tier lookups (Platinum, Gold, Silver, Bronze)
-• 📋 Company policies and procedures
-• 🎯 Sales strategies and scripts
-• ❓ General work questions
-
-Just continue the conversation - I'll keep responding without needing @ mentions!`,
+    text: `👋 Hi! I'm your Sales Assistant. Click the "Assistant" button above to start a smart conversation with me, or mention me in a thread!`,
     thread_ts: event.ts
   })
 })
