@@ -24,16 +24,53 @@ app.message(async ({ message, say, client }) => {
   // Skip bot messages
   if (msg.bot_id || msg.subtype === 'bot_message') return
   
+  console.log('Message received:', msg)
+  
   // Get channel information
   const channelInfo = await getChannelInfo(msg.channel)
   const isDirectMessage = channelInfo?.is_im || channelInfo?.is_mpim
   
-  // For direct messages, provide a simple acknowledgment since smart assistant will handle the conversation
-  if (isDirectMessage && !msg.text?.includes(`<@${await getBotId()}>`)) {
-    await say({
-      text: `👋 I'm here to help! Ask me about commissions, sales strategies, company policies, or anything work-related.`,
-      thread_ts: msg.thread_ts || msg.ts
-    })
+  console.log('Channel info:', channelInfo)
+  console.log('Is direct message:', isDirectMessage)
+  
+  // For direct messages, provide intelligent response
+  if (isDirectMessage) {
+    console.log('Processing DM response...')
+    
+    try {
+      // Import the generate response function
+      const { generateResponse } = await import('../lib/ai/generate-response')
+      
+      // Create message array
+      const messages = [{
+        role: 'user' as const,
+        content: msg.text || 'Hello'
+      }]
+      
+      console.log('Calling generateResponse with:', messages)
+      
+      // Generate intelligent response using knowledge base
+      const response = await generateResponse(messages)
+      
+      console.log('Generated response:', response)
+      
+      // Send the actual AI response, not a generic message
+      await say({
+        text: response.response,
+        thread_ts: msg.thread_ts || msg.ts
+      })
+      
+    } catch (error) {
+      console.error('Error in DM response:', error)
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+      // Only send fallback if there's actually an error
+      await say({
+        text: `💔 Sorry, I encountered an error: ${errorMessage}. Please try asking me about commissions, providers, or sales questions again!`,
+        thread_ts: msg.thread_ts || msg.ts
+      })
+    }
+  } else {
+    console.log('Not a DM, skipping response')
   }
 })
 
@@ -99,12 +136,37 @@ app.event('member_joined_channel', async ({ event }) => {
   await postChannelWelcome(event.channel, event.user)
 })
 
-// Handle app mentions by directing users to start an Assistant thread
+// Handle app mentions - DIRECT RESPONSE with knowledge base
 app.event('app_mention', async ({ event, say }) => {
-  await say({
-    text: `👋 Hi! I'm your Sales Assistant. Click the "Assistant" button above to start a smart conversation with me, or mention me in a thread!`,
-    thread_ts: event.ts
-  })
+  console.log('App mention received:', event)
+  
+  try {
+    // Import the generate response function
+    const { generateResponse } = await import('../lib/ai/generate-response')
+    
+    // Create a simple message array from the mention
+    const messages = [{
+      role: 'user' as const,
+      content: event.text?.replace(/<@[^>]+>/, '').trim() || 'Hello'
+    }]
+    
+    // Generate intelligent response using knowledge base
+    const response = await generateResponse(messages)
+    
+    await say({
+      text: response.response,
+      thread_ts: event.ts
+    })
+    
+  } catch (error) {
+    console.error('Error in app_mention:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    // Only fallback on actual error
+    await say({
+      text: `� Sorry, I encountered an error: ${errorMessage}. Please try asking about commissions, providers, or sales questions again!`,
+      thread_ts: event.ts
+    })
+  }
 })
 
 export async function POST(request: Request) {
