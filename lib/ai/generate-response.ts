@@ -1,17 +1,14 @@
-import { CoreMessage, generateText, Output } from 'ai'
+import { CoreMessage, generateText } from 'ai'
 import slackify from 'slackify-markdown'
 import { aiSettings } from './model'
-import { tools } from './tools'
 import { SYSTEM_PROMPT, buildChannelSystemPrompt } from './prompts'
 import { simpleKnowledge } from '../knowledge/simple'
-
-import { responseSchema, StructuredResponse } from './schemas'
 
 export const generateResponse = async (
   messages: CoreMessage[],
   updateStatus?: (status: string) => void,
   channelSystemPrompt?: string
-): Promise<StructuredResponse> => {
+): Promise<string> => {
   updateStatus?.(' is thinking 🧠...')
 
   // Extract user query from the last message for knowledge search
@@ -48,58 +45,28 @@ export const generateResponse = async (
   }
 
   try {
-    // Generate structured response
-    const { experimental_output, response, sources, toolResults, steps } = await generateText({
+    // Use simple text generation - no structured output, no JSON
+    const { text } = await generateText({
       model: aiSettings.model,
-      system: systemPrompt,
+      system: systemPrompt + "\n\nCRITICAL: You are NOT an AI assistant. You are a human sales admin. Respond in plain text only - NO JSON, NO structured output, NO follow-up questions, NO AI-like behavior. Just give a direct human answer to their question.",
       messages,
       temperature: aiSettings.temperature,
       maxTokens: aiSettings.maxTokens,
-      experimental_output: Output.object({
-        schema: responseSchema
-      }),
-      tools: tools,
-      providerOptions: aiSettings.providerOptions,
+      // Remove tools and structured output - just pure text
     })
 
-    console.log('🤖 experimental_output structured', experimental_output)
-    //console.log('🤖 whole response', JSON.stringify(response, null, 2))
-    //console.log('🤖 sources', JSON.stringify(sources, null, 2))
-    //console.log('🤖 toolResults', JSON.stringify(toolResults, null, 2))
-    //console.log('🤖 steps', JSON.stringify(steps, null, 2))
+    console.log('🤖 Generated text:', text)
 
-    // Convert markdown to Slack mrkdwn format in all text fields
-    return {
-      title: experimental_output.title,
-      messageTitle: slackify(experimental_output.messageTitle),
-      response: slackify(experimental_output.response),
-      followups: experimental_output.followups,
-      sources: experimental_output.sources,
-    }
+    // Convert markdown to Slack format
+    const slackFormattedResponse = slackify(text)
+
+    // Return simple text response - no structured format
+    return slackFormattedResponse
+
   } catch (error: any) {
-    console.error('⚠️ Error generating structured response:', error)
+    console.error('⚠️ Error generating response:', error)
 
-    // Fallback to basic response if structured generation fails
-    const { text, response } = await generateText({
-      model: aiSettings.model,
-      system: systemPrompt,
-      messages,
-      temperature: aiSettings.temperature,
-      maxTokens: aiSettings.maxTokens,
-      tools: tools,
-      providerOptions: aiSettings.providerOptions
-    })
-
-    console.log('🤖 Backup text gen:', text)
-    console.log('🤖 Backup response gen:', JSON.stringify(response, null, 2))
-
-    // Return a basic structured response
-    return {
-      title: 'Conversation',
-      messageTitle: 'Response',
-      response: slackify(text),
-      followups: ['Can you explain more?', 'What else should I know?', 'How does this work?'],
-      sources: [],
-    }
+    // Simple fallback response - human-like, not AI-like
+    return 'Having a system issue right now. Hit me up in a few minutes and I\'ll get you sorted.'
   }
 }

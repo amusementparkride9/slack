@@ -285,15 +285,15 @@ export const smartAssistant = new Assistant({
         : undefined
 
       // Generate structured response with channel context
-      const structuredResponse = await generateResponse(messages, updateStatus, channelSystemPrompt)
+      const response = await generateResponse(messages, updateStatus, channelSystemPrompt)
 
       // Set thread title
-      await setTitle(structuredResponse.title)
+      await setTitle('Response')
 
-      // Get channel-specific followup prompts, fallback to AI-generated ones
+      // Get channel-specific followup prompts, fallback to simple ones
       const channelPrompts = isManagedChannel(channelName) 
         ? Array.from(getChannelSuggestedPrompts(channelName))
-        : structuredResponse.followups
+        : ['Can you explain more?']
 
       // Ensure we have at least one prompt
       const prompts = channelPrompts.length > 0 ? channelPrompts : ['Can you explain more?']
@@ -313,47 +313,9 @@ export const smartAssistant = new Assistant({
         title: '➡️ What\`s next? ✍️ Or write your own?'
       })
 
-      // Post final response
+      // Post final response - simple text format
       await say({
-        blocks: [
-          {
-            type: 'header',
-            text: {
-              type: 'plain_text',
-              text: structuredResponse.messageTitle,
-              emoji: true
-            }
-          },
-          {
-            type: 'section',
-            text: {
-              type: 'mrkdwn',
-              text: structuredResponse.response
-            }
-          },
-          structuredResponse.sources?.length
-          ? 
-          {
-                type: 'section',
-                text: {
-                  type: 'mrkdwn',
-                  text: '*🔍 Sources:*\\n' +
-                    structuredResponse.sources
-                      .map(
-                        (src) => `🔗 <${src.url}|${src.title}>`
-                      )
-                      .join('\\n')
-                }
-              }
-          : {
-            type: 'section',
-            text: {
-              type: 'mrkdwn',
-              text: ' '
-            }
-          }
-        ],
-        text: structuredResponse.response // Fallback text
+        text: response
       })
 
       // Clear status

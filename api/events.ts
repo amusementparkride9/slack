@@ -30,12 +30,37 @@ app.message(async ({ message, say, client }) => {
   const channelInfo = await getChannelInfo(msg.channel)
   const isDirectMessage = channelInfo?.is_im || channelInfo?.is_mpim
   
+  // Check if this is a thread reply where the bot previously participated
+  let shouldRespond = isDirectMessage
+  
+  if (!shouldRespond && msg.thread_ts) {
+    try {
+      // Check if the bot has replied in this thread before
+      const threadReplies = await client.conversations.replies({
+        channel: msg.channel,
+        ts: msg.thread_ts,
+        limit: 50
+      })
+      
+      const botId = await getBotId()
+      const botHasReplied = threadReplies.messages?.some(m => m.bot_id === botId || m.user === botId)
+      
+      if (botHasReplied) {
+        console.log('Bot has replied in this thread before, continuing conversation')
+        shouldRespond = true
+      }
+    } catch (error) {
+      console.log('Could not check thread history, skipping:', error)
+    }
+  }
+  
   console.log('Channel info:', channelInfo)
   console.log('Is direct message:', isDirectMessage)
+  console.log('Should respond:', shouldRespond)
   
-  // For direct messages, provide intelligent response
-  if (isDirectMessage) {
-    console.log('Processing DM response...')
+  // Respond if it's a DM or if we're continuing a thread conversation
+  if (shouldRespond) {
+    console.log('Processing response...')
     
     try {
       // Import the generate response function
@@ -56,14 +81,14 @@ app.message(async ({ message, say, client }) => {
       
       // Send the actual AI response
       await say({
-        text: response.response,
+        text: response,
         thread_ts: msg.thread_ts || msg.ts
       })
       
       console.log('✅ Response sent successfully!')
       
     } catch (error) {
-      console.error('❌ Error in DM:', error)
+      console.error('❌ Error in message handler:', error)
       const errorMessage = error instanceof Error ? error.message : 'Unknown error'
       
       await say({
@@ -72,7 +97,7 @@ app.message(async ({ message, say, client }) => {
       })
     }
   } else {
-    console.log('Not a DM, skipping response')
+    console.log('Not a DM or active thread, skipping response')
   }
 })
 
@@ -156,7 +181,7 @@ app.event('app_mention', async ({ event, say }) => {
     const response = await generateResponse(messages)
     
     await say({
-      text: response.response,
+      text: response,
       thread_ts: event.ts
     })
     
