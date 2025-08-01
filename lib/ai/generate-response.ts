@@ -48,17 +48,38 @@ export const generateResponse = async (
     // Use simple text generation - no structured output, no JSON
     const { text } = await generateText({
       model: aiSettings.model,
-      system: systemPrompt + "\n\nCRITICAL: You are NOT an AI assistant. You are a human sales admin. Respond in plain text only - NO JSON, NO structured output, NO follow-up questions, NO AI-like behavior. Just give a direct human answer to their question.",
+      system: systemPrompt + "\n\nCRITICAL INSTRUCTIONS:\n• You are NOT an AI assistant. You are a human sales admin.\n• Respond ONLY with plain conversational text - NO JSON, NO structured data, NO objects.\n• NEVER include titles, messageTitle, response fields, or follow-up questions.\n• NEVER format responses like: {\"title\": \"...\", \"response\": \"...\"}.\n• Just write a normal human response as if you're texting a colleague.\n• ALWAYS use USD currency with dollar sign ($) - NEVER use euro (€) or other currency symbols.\n• Be concise and direct like you're texting a colleague.\n• Example good response: 'Xfinity has three tiers: Bronze ($35-60), Silver ($80-110), Gold ($100-150). Your rate depends on weekly volume.'\n• Example BAD response: '{\"title\": \"Commission Info\", \"response\": \"...\", \"questions\": [...]}'\n\nRESPOND WITH PLAIN TEXT ONLY:",
       messages,
       temperature: aiSettings.temperature,
       maxTokens: aiSettings.maxTokens,
       // Remove tools and structured output - just pure text
     })
 
-    console.log('🤖 Generated text:', text)
+    console.log('🤖 Raw AI response:', text)
 
-    // Convert markdown to Slack format
-    const slackFormattedResponse = slackify(text)
+    // If the AI returned JSON despite instructions, extract just the text content
+    let cleanedText = text
+    try {
+      // Check if response looks like JSON and extract the actual content
+      if (text.trim().startsWith('{') && text.trim().includes('"response"')) {
+        const parsed = JSON.parse(text)
+        if (parsed.response) {
+          cleanedText = parsed.response
+          console.log('⚠️ AI returned JSON despite instructions, extracted text content')
+        }
+      }
+    } catch (e) {
+      // Not JSON, use as-is
+      cleanedText = text
+    }
+
+    // Convert markdown to Slack format and ensure USD currency formatting
+    let slackFormattedResponse = slackify(cleanedText)
+    
+    // Replace any euro symbols with dollar signs (in case the AI model uses them)
+    slackFormattedResponse = slackFormattedResponse.replace(/€/g, '$')
+    
+    console.log('✅ Final response:', slackFormattedResponse)
 
     // Return simple text response - no structured format
     return slackFormattedResponse

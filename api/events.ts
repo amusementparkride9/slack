@@ -30,12 +30,12 @@ app.message(async ({ message, say, client }) => {
   const channelInfo = await getChannelInfo(msg.channel)
   const isDirectMessage = channelInfo?.is_im || channelInfo?.is_mpim
   
-  // Check if this is a thread reply where the bot previously participated
+  // Check if this is a thread reply where the bot was mentioned or previously participated
   let shouldRespond = isDirectMessage
   
   if (!shouldRespond && msg.thread_ts) {
     try {
-      // Check if the bot has replied in this thread before
+      // Check if the bot was mentioned anywhere in this thread or has replied before
       const threadReplies = await client.conversations.replies({
         channel: msg.channel,
         ts: msg.thread_ts,
@@ -43,11 +43,27 @@ app.message(async ({ message, say, client }) => {
       })
       
       const botId = await getBotId()
-      const botHasReplied = threadReplies.messages?.some(m => m.bot_id === botId || m.user === botId)
       
-      if (botHasReplied) {
-        console.log('Bot has replied in this thread before, continuing conversation')
+      // Check if bot was mentioned in ANY message in this thread
+      const botWasMentioned = threadReplies.messages?.some(m => 
+        m.text?.includes(`<@${botId}>`)
+      )
+      
+      // Check if bot has replied in this thread before
+      // Bot messages have bot_id set and user is typically the bot's user ID
+      const botHasReplied = threadReplies.messages?.some(m => 
+        m.bot_id === botId || 
+        m.user === botId ||
+        (m.bot_id && m.bot_profile?.name === 'SalesAssistant') || // Check bot name as backup
+        (m.app_id && m.bot_profile?.id === botId) // Alternative bot ID check
+      )
+      
+      // If bot was mentioned OR has replied before, continue the conversation
+      if (botWasMentioned || botHasReplied) {
+        console.log('✅ Bot continuing thread conversation - mentioned:', botWasMentioned, 'replied before:', botHasReplied)
         shouldRespond = true
+      } else {
+        console.log('❌ Bot not part of this thread conversation, skipping')
       }
     } catch (error) {
       console.log('Could not check thread history, skipping:', error)
@@ -66,11 +82,52 @@ app.message(async ({ message, say, client }) => {
       // Import the generate response function
       const { generateResponse } = await import('../lib/ai/generate-response')
       
-      // Create message array
-      const messages = [{
-        role: 'user' as const,
-        content: msg.text || 'Hello'
-      }]
+      // If this is a thread, get the conversation context
+      let messages
+      if (msg.thread_ts) {
+        try {
+          // Get thread history for context
+          const threadReplies = await client.conversations.replies({
+            channel: msg.channel,
+            ts: msg.thread_ts,
+            limit: 10
+          })
+          
+          const botId = await getBotId()
+          
+          // Convert thread messages to conversation format
+          const threadMessages = threadReplies.messages
+            ?.filter(m => m.text) // Include both user and bot messages with text
+            ?.map(m => ({
+              role: m.bot_id ? 'assistant' as const : 'user' as const, // Bot messages = assistant, user messages = user
+              content: m.text?.replace(/<@[^>]+>/g, '').trim() || ''
+            }))
+            ?.filter(m => m.content) // Remove empty messages
+          
+          messages = threadMessages
+          console.log(`📝 Thread context: ${threadMessages?.length || 0} messages loaded for conversation`)
+          
+          // If no valid messages, fall back to current message
+          if (!messages || messages.length === 0) {
+            messages = [{
+              role: 'user' as const,
+              content: msg.text || 'Hello'
+            }]
+          }
+        } catch (error) {
+          console.log('Could not get thread context, using current message only:', error)
+          messages = [{
+            role: 'user' as const,
+            content: msg.text || 'Hello'
+          }]
+        }
+      } else {
+        // Single message
+        messages = [{
+          role: 'user' as const,
+          content: msg.text || 'Hello'
+        }]
+      }
       
       console.log('Calling generateResponse with:', messages)
       
@@ -195,6 +252,11 @@ app.event('app_mention', async ({ event, say }) => {
     })
   }
 })
+
+export async function GET(request: Request) {
+  // Handle URL verification for Slack
+  return new Response('Slack bot endpoint is running', { status: 200 })
+}
 
 export async function POST(request: Request) {
   try {

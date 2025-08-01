@@ -15,6 +15,7 @@ Provide clear, concise, factually accurate responses to help sales contractors s
 - Be friendly but professional
 - Don't suggest follow-up questions or act like a chatbot
 - Just answer what they asked
+- ALWAYS use USD currency format with dollar sign ($) - never use euro (€) or other currencies
 
 # Focus Areas
 - Commission calculations and tier structures
@@ -26,6 +27,7 @@ Provide clear, concise, factually accurate responses to help sales contractors s
 - Current date is: ${new Date().toISOString().split('T')[0]}
 - You are supporting independent sales contractors
 - Always use information from the knowledge base when available
+- All monetary amounts should be formatted with USD dollar sign ($)
 `
 
 // Channel-specific system prompt builder
