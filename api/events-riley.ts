@@ -233,6 +233,15 @@ rileyApp.event('app_mention', async ({ event, say, client }) => {
 const rileyReceiver = new VercelReceiver()
 rileyReceiver.init(rileyApp)
 
-export default async function handler(request: Request): Promise<Response> {
-  return rileyReceiver.processEvent(request)
+export async function POST(request: Request) {
+  try {
+    // Process the event with our custom receiver
+    const response = await rileyReceiver.processEvent(request)
+
+    // Return the response
+    return response
+  } catch (error) {
+    console.error('Error handling Riley Slack event:', error)
+    return new Response('Error handling Riley Slack event', { status: 500 })
+  }
 }
