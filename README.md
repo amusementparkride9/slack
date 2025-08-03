@@ -40,8 +40,8 @@ pnpm install
 ```json
 {
   "display_information": {
-    "name": "Sales Team Assistant",
-    "description": "AI assistant for managing sales contractor channels",
+    "name": "Group Admin",
+    "description": "Group admin for managing sales contractor channels",
     "background_color": "#4A154B"
   },
   "features": {
@@ -51,7 +51,7 @@ pnpm install
       "messages_tab_read_only_enabled": false
     },
     "bot_user": {
-      "display_name": "Sales Assistant",
+      "display_name": "Cody",
       "always_online": true
     },
     "slash_commands": [

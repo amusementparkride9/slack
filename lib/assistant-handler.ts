@@ -1,7 +1,8 @@
 import { Assistant } from '@slack/bolt'
 
 import { generateResponse } from './ai/generate-response'
-import { WELCOME_MESSAGE } from './ai/prompts'
+import { getWelcomeMessage, buildSystemPrompt } from './ai/prompts'
+import { PersonaType } from './ai/persona-system'
 import { getThread, getBotId } from './bolt-app'
 import { truncate } from './utils/truncate'
 import { 
@@ -12,6 +13,9 @@ import {
   getChannelWelcomeMessage, 
   getChannelSuggestedPrompts 
 } from './channel-config'
+
+// Default persona for this bot instance
+const DEFAULT_PERSONA: PersonaType = 'CODY_ADMIN';
 
 // Create the Assistant instance
 export const assistant = new Assistant({
@@ -24,10 +28,10 @@ export const assistant = new Assistant({
     const channelInfo = await getChannelInfo(channel_id)
     const channelName = channelInfo?.name || ''
     
-    // Use channel-specific welcome message if available
+    // Use channel-specific welcome message if available, otherwise use persona-based message
     const welcomeMessage = isManagedChannel(channelName) 
       ? getChannelWelcomeMessage(channelName)
-      : WELCOME_MESSAGE
+      : getWelcomeMessage(DEFAULT_PERSONA)
 
     // Send welcome message
     await say(welcomeMessage)
@@ -141,13 +145,13 @@ export const assistant = new Assistant({
         }
       }
 
-      // Get channel-specific system prompt
-      const channelSystemPrompt = isManagedChannel(channelName) 
+      // Get channel-specific system prompt or build with default persona
+      const systemPrompt = isManagedChannel(channelName) 
         ? getChannelSystemPrompt(channelName)
-        : undefined
+        : buildSystemPrompt(DEFAULT_PERSONA)
 
-      // Generate structured response with channel context
-      const response = await generateResponse(messages, updateStatus, channelSystemPrompt)
+      // Generate structured response with system prompt
+      const response = await generateResponse(messages, 'default', updateStatus, systemPrompt)
 
       // Set thread title
       await setTitle('Response')

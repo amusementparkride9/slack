@@ -2,7 +2,20 @@
   "functions": {
     "api/events.ts": {
       "maxDuration": 60
+    },
+    "api/events-riley.ts": {
+      "maxDuration": 60
     }
   },
+  "rewrites": [
+    {
+      "source": "/api/events/cody",
+      "destination": "/api/events"
+    },
+    {
+      "source": "/api/events/riley",
+      "destination": "/api/events-riley"
+    }
+  ],
   "outputDirectory": "dist"
 }

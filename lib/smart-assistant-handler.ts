@@ -1,7 +1,8 @@
 import { Assistant } from '@slack/bolt'
 
 import { generateResponse } from './ai/generate-response'
-import { WELCOME_MESSAGE } from './ai/prompts'
+import { getWelcomeMessage } from './ai/prompts'
+import { PersonaType } from './ai/persona-system'
 import { getThread, getBotId } from './bolt-app'
 import { truncate } from './utils/truncate'
 import { 
@@ -150,7 +151,7 @@ export const smartAssistant = new Assistant({
     // Use channel-specific welcome message if available
     const welcomeMessage = isManagedChannel(channelName) 
       ? getChannelWelcomeMessage(channelName)
-      : WELCOME_MESSAGE
+      : getWelcomeMessage('CODY_ADMIN')
 
     // Send welcome message
     await say(welcomeMessage)
@@ -285,7 +286,7 @@ export const smartAssistant = new Assistant({
         : undefined
 
       // Generate structured response with channel context
-      const response = await generateResponse(messages, updateStatus, channelSystemPrompt)
+      const response = await generateResponse(messages, 'default', updateStatus, channelSystemPrompt)
 
       // Set thread title
       await setTitle('Response')

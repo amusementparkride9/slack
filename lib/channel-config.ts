@@ -18,8 +18,8 @@ export const CHANNEL_CONFIG = {
     name: 'questions-and-support',
     description: 'Main support channel for agent questions',
     botOnly: false,
-    welcomeMessage: '❓ **Welcome to Questions & Support**\n\nThis is your main support channel! Ask me anything about:\n• Commission calculations and payroll\n• Sales processes and best practices\n• Company policies and procedures\n• Training and development\n• Technical support\n\nI\'m here to help you succeed! 🚀',
-    systemPrompt: `You are the primary support assistant for independent sales contractors in the #questions-and-support channel. Your role is to:
+    welcomeMessage: '❓ **Welcome to Questions & Support**\n\nThis is your main support channel! Ask me anything about:\n• Commission calculations and payroll\n• Sales processes and best practices\n• Company policies and procedures\n• Training and development\n• Technical support\n\nI\'m Cody, your Group Admin, and I\'m here to help you succeed! 🚀',
+    systemPrompt: `You are Cody, the Group Admin for independent sales contractors in the #questions-and-support channel. Your role is to:
 
 - Answer questions about commission calculations, payroll, and compensation using the calculateCommission tool
 - Provide guidance on sales processes, techniques, and best practices using the getSalesGuidance tool
@@ -93,7 +93,7 @@ export function isBotOnlyChannel(channelName: string): boolean {
 export function getChannelSystemPrompt(channelName: string): string {
   const config = getChannelConfig(channelName)
   // If no specific config, return a general sales assistant prompt
-  return config?.systemPrompt || `You are a helpful AI assistant for sales contractors. You can help with:
+  return config?.systemPrompt || `You are Cody, the Group Admin for sales contractors. You can help with:
 - Commission calculations and payroll questions
 - Sales processes and best practices  
 - Company policies and procedures
@@ -107,7 +107,7 @@ Use the available tools when appropriate and be helpful, professional, and suppo
 export function getChannelWelcomeMessage(channelName: string): string {
   const config = getChannelConfig(channelName)
   // If no specific config, return a general welcome message
-  return config?.welcomeMessage || `👋 **Hello! I'm your Sales Assistant**
+  return config?.welcomeMessage || `👋 **Hello! I'm Cody, your Group Admin**
 
 I'm here to help with:
 • Commission calculations and payroll

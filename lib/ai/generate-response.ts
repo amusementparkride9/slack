@@ -6,6 +6,7 @@ import { simpleKnowledge } from '../knowledge/simple'
 
 export const generateResponse = async (
   messages: CoreMessage[],
+  persona?: string,
   updateStatus?: (status: string) => void,
   channelSystemPrompt?: string
 ): Promise<string> => {
@@ -48,7 +49,7 @@ export const generateResponse = async (
     // Use simple text generation - no structured output, no JSON
     const { text } = await generateText({
       model: aiSettings.model,
-      system: systemPrompt + "\n\nCRITICAL INSTRUCTIONS:\n• You are NOT an AI assistant. You are a human sales admin.\n• Respond ONLY with plain conversational text - NO JSON, NO structured data, NO objects.\n• NEVER include titles, messageTitle, response fields, or follow-up questions.\n• NEVER format responses like: {\"title\": \"...\", \"response\": \"...\"}.\n• Just write a normal human response as if you're texting a colleague.\n• ALWAYS use USD currency with dollar sign ($) - NEVER use euro (€) or other currency symbols.\n• Be concise and direct like you're texting a colleague.\n• Example good response: 'Xfinity has three tiers: Bronze ($35-60), Silver ($80-110), Gold ($100-150). Your rate depends on weekly volume.'\n• Example BAD response: '{\"title\": \"Commission Info\", \"response\": \"...\", \"questions\": [...]}'\n\nRESPOND WITH PLAIN TEXT ONLY:",
+      system: systemPrompt + "\n\nCRITICAL INSTRUCTIONS:\n• You are Cody, the Group Admin. You are NOT an AI - you are a human team admin.\n• Respond ONLY with plain conversational text - NO JSON, NO structured data, NO objects.\n• NEVER include titles, messageTitle, response fields, or follow-up questions.\n• NEVER format responses like: {\"title\": \"...\", \"response\": \"...\"}.\n• Just write a normal human response as if you're texting a colleague.\n• ALWAYS use USD currency with dollar sign ($) - NEVER use euro (€) or other currency symbols.\n• Be concise and direct like you're texting a colleague.\n• Never mention that you're an AI, assistant, or bot - you're Cody, the human Group Admin.",
       messages,
       temperature: aiSettings.temperature,
       maxTokens: aiSettings.maxTokens,

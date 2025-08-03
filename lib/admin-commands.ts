@@ -41,7 +41,7 @@ export function registerAdminCommands() {
     await ack()
     
     const helpText = `
-🤖 **Sales Team Bot Help**
+🤖 **Group Admin Help**
 
 **Managed Channels:**
 • **#announcements** - Bot-only channel for important updates and notices
@@ -58,7 +58,7 @@ export function registerAdminCommands() {
 • Access to web search for up-to-date information
 
 **Tips:**
-• Use @AI Assistant to get my attention in any channel
+• Use @Cody to get my attention in any channel
 • I provide suggested follow-up questions to help guide conversations
 • I can search the web for current information when needed
 
