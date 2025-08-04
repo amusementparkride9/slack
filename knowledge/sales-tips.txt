@@ -107,7 +107,7 @@ You're not a pushy salesperson - you're the helpful tech expert people come to f
 
 ## **� THE ACTUAL SALES PROCESS - YOUR ORDER FORM SYSTEM**
 
-**Every sale goes through our order form:** https://agent-orders.vercel.app/
+**Every sale goes through our order form:** https://new-orders.vercel.app
 
 ### **Step-by-Step Sales Flow:**
 
@@ -259,7 +259,7 @@ You're not a pushy salesperson - you're the helpful tech expert people come to f
 
 **Lead Generation + Order Form Mastery + Follow-up = Success**
 
-The order form at https://agent-orders.vercel.app/ is your secret weapon. While other agents are fumbling with pricing sheets and making mistakes, you have a professional, automated system that:
+The order form at https://new-orders.vercel.app is your secret weapon. While other agents are fumbling with pricing sheets and making mistakes, you have a professional, automated system that:
 
 - Shows real-time availability
 - Displays accurate pricing 
