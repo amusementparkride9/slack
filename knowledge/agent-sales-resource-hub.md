@@ -1,6 +1,6 @@
 # Agent Sales Resource Hub: Your Complete Training Platform
 
-**Website:** https://agent-sales-resource.vercel.app/
+**Website:** https://agent-resource-center.vercel.app/
 
 The Agent Sales Resource Hub is your comprehensive, web-based training platform designed specifically for internet installation sales agents. This resource contains everything you need to achieve consistent $1,000 - $1,500+ weekly income through proven sales strategies, commission optimization, and professional development.
 
@@ -24,7 +24,7 @@ The Agent Sales Resource Hub is your comprehensive, web-based training platform 
 ## Main Sections Overview
 
 ### 1. Homepage - Your Starting Point
-**URL:** https://agent-sales-resource.vercel.app/
+**URL:** https://agent-resource-center.vercel.app/
 
 The homepage provides:
 - **Key Metrics:** Commission ranges ($35-$180), volume bonus levels, provider count, VAS bonuses
@@ -34,7 +34,7 @@ The homepage provides:
 **Start here if you're new** - it will guide you to the most important resources first.
 
 ### 2. Commission Guide - Understanding Your Pay
-**URL:** https://agent-sales-resource.vercel.app/commission-guide
+**URL:** https://agent-resource-center.vercel.app/commission-guide
 
 **Essential for every agent** - this section covers:
 
@@ -65,7 +65,7 @@ The homepage provides:
 - Chargeback policies and protections
 
 ### 3. Training Center - Master Your Skills
-**URL:** https://agent-sales-resource.vercel.app/training
+**URL:** https://agent-resource-center.vercel.app/training
 
 **Your pathway to elite performance** with three core modules:
 
@@ -85,7 +85,7 @@ The homepage provides:
 - Clear daily and weekly goals for new agents
 
 ### 4. Lead Generation Playbook - Build Your Pipeline
-**URL:** https://agent-sales-resource.vercel.app/training/lead-generation
+**URL:** https://agent-resource-center.vercel.app/training/lead-generation
 
 **🎯 Key Outcomes:**
 - Generate 5-10 leads daily
@@ -126,7 +126,7 @@ The homepage provides:
 - Lead nurturing strategies
 
 ### 5. Objection Handling Scripts - Convert Hesitation to Sales
-**URL:** https://agent-sales-resource.vercel.app/training/objection-handling
+**URL:** https://agent-resource-center.vercel.app/training/objection-handling
 
 **🧠 Core Philosophy:**
 - **Objections Are Invitations** for more information
@@ -157,7 +157,7 @@ The homepage provides:
 - Increased confidence in difficult conversations
 
 ### 6. Tier Upselling Guide - Maximize Your Commissions
-**URL:** https://agent-sales-resource.vercel.app/training/upselling
+**URL:** https://agent-resource-center.vercel.app/training/upselling
 
 **💰 The Win-Win Proposition:**
 - **For Customer:** Superior experience, future-proofing
@@ -193,7 +193,7 @@ The homepage provides:
 - "True Value vs. Lowest Price" positioning
 
 ### 7. Provider Directory - Know Your Products
-**URL:** https://agent-sales-resource.vercel.app/providers
+**URL:** https://agent-resource-center.vercel.app/providers
 
 **🏢 Complete Provider Coverage:**
 All nine service providers with dedicated pages:
@@ -216,7 +216,7 @@ All nine service providers with dedicated pages:
 ## How to Access and Use the Resource Hub
 
 ### **For New Agents:**
-1. **Start with Homepage:** https://agent-sales-resource.vercel.app/
+1. **Start with Homepage:** https://agent-resource-center.vercel.app/
 2. **Review Commission Guide:** Understand your earning potential
 3. **Begin Training Module 1:** Lead Generation Playbook
 4. **Progress through modules:** Objection Handling → Tier Upselling
@@ -272,6 +272,6 @@ As your AI assistant, I recommend the Agent Sales Resource Hub because:
 
 **💡 Pro Tip:** Bookmark the resource hub on your phone's home screen for instant access. The most successful agents reference it daily and use it as their primary training resource.
 
-**🚀 Start Today:** Visit https://agent-sales-resource.vercel.app/ and begin with the Commission Guide to understand your full earning potential, then move to the Training Center to build the skills that will get you there.
+**🚀 Start Today:** Visit https://agent-resource-center.vercel.app/ and begin with the Commission Guide to understand your full earning potential, then move to the Training Center to build the skills that will get you there.
 
 This resource hub is your competitive advantage in the internet installation sales industry. Use it consistently, and you'll see measurable improvements in your lead generation, closing rates, and weekly commissions.

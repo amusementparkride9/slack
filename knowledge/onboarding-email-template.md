@@ -15,13 +15,13 @@ Welcome to the team! I'm excited to help you build your successful internet/cabl
 1. **Check your email** for a Slack invitation (sent separately)
 2. **Accept the Slack invitation** and join our sales community
 3. **Message Cody in Slack** with: "Hi Cody, I'm [Your Name] and I've completed onboarding." (This confirms your account is active)
-4. **Bookmark our Resource Hub**: https://agent-sales-resource.vercel.app/ (Your complete sales training platform)
+4. **Bookmark our Resource Hub**: https://agent-resource-center.vercel.app/ (Your complete sales training platform)
 
 **Fast-Start Bonus Opportunity:**
 
 Make your first sale within 7 days and earn an additional bonus on top of your commission:
-- $50 bonus for Gold or Platinum tier sale
-- $25 bonus for Silver tier sale
+- $50 bonus for Gold/Platinum tier sale that installs within 7 days
+- $25 bonus for Silver tier sale that installs within 7 days
 
 **Tomorrow's Email:**
 Watch for tomorrow's email with training resources specifically tailored to your selected marketing strategy: [Selected Strategy from Form].
@@ -53,7 +53,7 @@ Based on your onboarding preferences, I've created a personalized training path 
 
 **Your Personalized Training Path:**
 
-1. **Start Here:** Visit the [Agent Sales Resource Hub](https://agent-sales-resource.vercel.app/commission-guide) to review the commission structure and understand your earning potential.
+1. **Start Here:** Visit the [Agent Sales Resource Hub](https://agent-resource-center.vercel.app/commission-guide) to review the commission structure and understand your earning potential.
 
 2. **Next, Focus On:** 
    - If Content Creator: Review the training resources for creating effective comparison content
@@ -112,7 +112,7 @@ Based on your [selected time commitment], I recommend:
    - [Content calendar suggestions]
 
 **Resource Hub Deep Dive:**
-Visit the Provider Directory section at https://agent-sales-resource.vercel.app/providers to learn which providers work best with your preferred strategy and target markets.
+Visit the Provider Directory section at https://agent-resource-center.vercel.app/providers to learn which providers work best with your preferred strategy and target markets.
 
 **Action Item:**
 Set up your first [marketing activity based on their selection] today using the templates provided in the Resource Hub. Even one strategic post or outreach can generate your first lead!
@@ -159,7 +159,7 @@ Your [selected strategy] approach works particularly well with these upselling t
    - When to use: "[Specific scenario]"
 
 **Resource Hub Connection:**
-Visit the Objection Handling section at https://agent-sales-resource.vercel.app/training/objection-handling for more detailed scripts tailored to your approach.
+Visit the Objection Handling section at https://agent-resource-center.vercel.app/training/objection-handling for more detailed scripts tailored to your approach.
 
 **Action Item:**
 Practice the objection handling scripts for your primary target market today. Being prepared with these responses will significantly increase your close rate.
@@ -194,7 +194,7 @@ You've reached the end of your fast-start onboarding! Here's a summary of your p
    - **Cody (Sales Admin):** Available for commission questions, sales strategy advice, and general support
    - **Help Desk:** Technical assistance with provider systems, order issues, and troubleshooting
 
-2. **Resource Hub:** https://agent-sales-resource.vercel.app/
+2. **Resource Hub:** https://agent-resource-center.vercel.app/
    - All training materials organized by your preferred strategy
    - Commission calculator and tier guides
    - Provider-specific information
@@ -204,7 +204,7 @@ You've reached the end of your fast-start onboarding! Here's a summary of your p
    - Performance review and strategy refinement
 
 **Remember Your Fast-Start Bonus:**
-You still have time to earn your fast-start bonus! Make your first Gold or Platinum sale within 7 days of onboarding to receive an additional $50 bonus (or $25 for a Silver tier sale).
+You still have time to earn your fast-start bonus! Make your first Gold/Platinum sale that installs within 7 days of onboarding to receive an additional $50 bonus (or $25 for a Silver tier sale that installs within 7 days).
 
 **Action Item:**
 Schedule 30 minutes to review your progress and refine your approach based on the results so far. Consistent evaluation and adjustment are key to long-term success.

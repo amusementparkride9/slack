@@ -100,7 +100,7 @@ We have a zero-tolerance policy for fraud. To ensure all orders are legitimate, 
 Please be aware that **Spectrum sales are temporarily paused**. You should focus your efforts on our other fantastic providers for now. Keep an eye on the main announcements page for updates on when Spectrum sales will resume.
 
 ### Your Fast-Start Bonus
-We want you to earn money from day one. New agents are eligible for a **Fast-Start Bonus** on their first sale that is installed within the first 7 days:
-* 💰 **$50 Bonus** on your first Platinum/Gold sale.
-* 💰 **$25 Bonus** on your first Silver sale.
+We want you to earn money from day one. New agents are eligible for a **Fast-Start Bonus** on their first sale that installs within the first 7 days:
+* 💰 **$50 Bonus** on your first Gold/Platinum sale that installs within 7 days.
+* 💰 **$25 Bonus** on your first Silver sale that installs within 7 days.
 * You can even earn this by signing yourself up for service!
