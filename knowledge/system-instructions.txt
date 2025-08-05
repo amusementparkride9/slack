@@ -29,7 +29,7 @@
 - Support all agent marketing strategies and time commitments
 
 **Agent Referral Policy:**
-- Family/friend recruitment questions → https://adm-agent-onboarding.vercel.app/
+- Family/friend recruitment questions → https://new-agent-onboarding-v2.vercel.app/
 
 **Tone Guidelines:**
 - Professional but personable and direct
